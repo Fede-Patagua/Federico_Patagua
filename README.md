@@ -1,15 +1,10 @@
 # Federico Patagua — Portfolio & Caja de Herramientas
-
-Sitio personal, estático, alojado en GitHub Pages. Funciona como
-portfolio y como repositorio público de herramientas web propias:
-un Gantt gratuito, un visor de horas académico, un plan de estudios
-interactivo y Geppetto, un proyecto de código abierto.
-
-🔗 **Sitio:** https://TU-USUARIO.github.io/Federico_Patagua/
-*(reemplazar `TU-USUARIO` por el nombre de usuario de GitHub una vez
-publicado el repo)*
-
 ---
 
-Guía técnica de estructura, deploy y cómo subir contenido:
-[`NOTAS-DE-DESARROLLO.md`](./NOTAS-DE-DESARROLLO.md)
+Este es mi espacio personal: portfolio y, a la vez, caja de herramientas. Acá vive una herramienta para hacer Gantts, un visor de horas académico, un plan de estudios interactivo y Geppetto, un proyecto de código abierto en el que trabajé.
+
+Todas estas herramientas nacieron para resolver necesidades que fui encontrando en el camino. Algunas surgieron en el trabajo, otras mientras estudiaba y otras simplemente por curiosidad. Hoy las comparto con la idea de que puedan ser útiles para alguien más, y de seguir sumando nuevas con el tiempo.
+
+---
+→ **Sitio:** https://fede-patagua.github.io/Federico_Patagua/
+---
