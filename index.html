@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FEDERICO PATAGUA— Portfolio & Caja de Herramientas</title>
+<meta name="description" content="[COMPLETAR: descripción breve del sitio, 1 línea]">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ============ ÍNDICE LATERAL (fijo) ============ -->
+  <nav class="sidebar" aria-label="Índice">
+    <div class="sidebar__top">
+      <div class="identity">
+        <span class="avatar">
+          <img src="assets/img/profile.jpg" alt="Foto de perfil"
+               onerror="this.style.display='none'; this.parentElement.classList.add('avatar--empty')">
+        </span>
+        <div class="identity__text">
+          <p class="brand"><a href="index.html" class="brand-link">Federico Patagua</a></p>
+          <p class="role">Product Owner / Project Manager</p>
+        </div>
+      </div>
+
+      <a class="about-link" href="sobre-mi.html">Sobre mí</a>
+
+      <ul class="toc">
+        <li><a href="#gantt"><span class="num">01</span><span>Gantt gratuito</span></a></li>
+        <li><a href="#horas"><span class="num">02</span><span>Visor de horas</span></a></li>
+        <li><a href="#plan-estudios"><span class="num">03</span><span>Plan de estudios académico</span></a></li>
+        <li><a href="#geppetto"><span class="num">04</span><span>Geppetto</span></a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar__bottom">
+      <div class="mail-row">
+        <a class="mail-text" href="mailto:federico.daniel.patagua@gmail.com">federico.daniel.patagua@gmail.com</a>
+        <button type="button" class="copy-btn" data-copy="federico.daniel.patagua@gmail.com" aria-label="Copiar email">
+          <svg class="icon-copy" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <rect x="5.5" y="5.5" width="8" height="8" rx="1.2" stroke="currentColor" stroke-width="1.3"/>
+            <path d="M3.5 10.2V3.7A1.2 1.2 0 0 1 4.7 2.5h6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+          </svg>
+          <svg class="icon-check" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 8.5L6.2 11.5L13 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      
+      <p><a href="assets/cv/cv.pdf" target="_blank" rel="noopener noreferrer">CV (PDF)</a></p>
+    </div>
+  </nav>
+
+  <!-- ============ CONTENIDO ============ -->
+  <main class="main">
+    <div class="page">
+
+      <header class="intro">
+        <p class="eyebrow">Portfolio & caja de herramientas</p>
+        <h1>Herramientas que construí para resolver problemas propios.</h1>
+        <p>
+          Este espacio reúne herramientas que fui creando para resolver necesidades concretas en mi trabajo, mis estudios y proyectos personales. Cada una parte de un problema propio, y está disponible para que cualquiera pueda usarla o explorarla.
+        </p>
+      </header>
+
+      <p class="section-label">Índice de herramientas</p>
+
+      <!-- ============ CAPÍTULOS = HERRAMIENTAS ============ -->
+      <section class="chapters">
+
+        <!-- ---- 01 · Gantt gratuito (interna) ---- -->
+        <article class="chapter" id="gantt">
+          <button class="chapter__row" aria-expanded="false" aria-controls="panel-gantt">
+            <span class="title">
+              <span class="chapter__eyebrow">01</span>
+              <h2>Gantt gratuito</h2>
+              <p class="tagline">Planificá proyectos con un único archivo HTML.</p>
+            </span>
+            <span class="tag">en este sitio</span>
+            <svg class="chevron" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M7 1V13M1 7H13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+          </button>
+
+          <div class="chapter__panel" id="panel-gantt">
+            <div class="chapter__panel-inner">
+              <div class="chapter__body">
+
+                <div class="chapter__block">
+                  <h3>El problema</h3>
+                  <p >Planificar un proyecto sin depender de herramientas complejas, licencias o planillas improvisadas.</p>
+                </div>
+
+                <div class="chapter__block">
+                  <h3>Cómo se usa</h3>
+                  <ol>
+                    <li >Creá las actividades y definí su duración y dependencias.</li>
+                    <li >Organizá el proyecto desde el diagrama de Gantt o la vista de Backlog.</li>
+                    <li >Exportalo como imagen o Excel para compartirlo o seguir trabajándolo.</li>
+                  </ol>
+                </div>
+
+                <div class="chapter__block">
+                  <h3>Qué incluye</h3>
+                  <ul>
+                    <li >Diagrama de Gantt interactivo con cálculo automático de ruta crítica y holgura.</li>
+                    <li >Vista de Backlog, guardado automático y exportación/importación desde Excel.</li>
+                    <li >Lo que hagas se guarda en el LocalStorage de tu navegador.</li>
+                  </ul>
+                </div>
+
+                <a class="chapter__cta" href="tools/gantt/">
+                  Abrir Gantt gratuito
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                    <path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </a>
+
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- ---- 02 · Visor de horas (interna) ---- -->
+        <article class="chapter" id="horas">
+          <button class="chapter__row" aria-expanded="false" aria-controls="panel-horas">
+            <span class="title">
+              <span class="chapter__eyebrow">02</span>
+              <h2>Visor de horas</h2>
+              <p class="tagline">Visualizá horarios y detectá colisiones entre comisiones.</p>
+            </span>
+            <span class="tag">en este sitio</span>
+            <svg class="chevron" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M7 1V13M1 7H13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+          </button>
+
+          <div class="chapter__panel" id="panel-horas">
+            <div class="chapter__panel-inner">
+              <div class="chapter__body">
+
+                <div class="chapter__block">
+                  <h3>El problema</h3>
+                  <p >Entender los horarios y detectar colisiones entre comisiones a partir de una planilla de Excel.</p>
+                </div>
+
+                <div class="chapter__block">
+                  <h3>Cómo se usa</h3>
+                  <ol>
+                    <li >Importá el archivo de comisiones o cargalas manualmente (con el formato de la UTN FRA).</li>
+                    <li >Explorá los horarios con filtros por día, horario y año.</li>
+                    <li >Compará materias y detectá colisiones entre comisiones.</li> 
+                  </ol>
+                </div>
+
+                <div class="chapter__block">
+                  <h3>Qué incluye</h3>
+                  <ul>
+                    <li >Tres vistas: carga de comisiones, horarios por año y mapa de materias de la carrera.</li>
+                    <li >Importación automática desde el archivo de comisiones del Departamento de Ingeniería Industrial y filtros por día y horario.</li>
+                    <li >Lo que hagas se guarda en el LocalStorage de tu navegador.</li>
+
+                  </ul>
+                </div>
+
+                <a class="chapter__cta" href="tools/horas/">
+                  Abrir Visor de horas
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                    <path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </a>
+
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- ---- 03 · Plan de estudios académico (EXTERNA — Firebase) ---- -->
+        <article class="chapter" id="plan-estudios">
+          <button class="chapter__row" aria-expanded="false" aria-controls="panel-plan">
+            <span class="title">
+              <span class="chapter__eyebrow">03</span>
+              <h2>Plan de estudios académico</h2>
+              <p class="tagline">Entendé tu recorrido académico de manera veloz.</p>
+            </span>
+            <span class="tag external">enlace externo</span>
+            <svg class="chevron" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M7 1V13M1 7H13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+          </button>
+
+          <div class="chapter__panel" id="panel-plan">
+            <div class="chapter__panel-inner">
+              <div class="chapter__body">
+
+                <div class="chapter__block">
+                  <h3>El problema</h3>
+                  <p class="placeholder">La información del plan de estudios estaba dispersa y entender las correlatividades, los estados académicos o el impacto de una materia llevaba tiempo y, muchas veces, dependía del boca en boca.</p>
+                </div>
+
+                <div class="chapter__block">
+                  <h3>Cómo se usa</h3>
+                  <ol>
+                    <li class="placeholder">Marcá tu estado académico o forzá un plan de estudios anterior.</li>
+                    <li class="placeholder">Explorá el mapa para entender correlatividades, bloqueos y tu progreso.</li>
+                  </ol>
+                </div>
+
+                <div class="chapter__block">
+                  <h3>Qué incluye</h3>
+                  <ul>
+                    <li class="placeholder">Mapa interactivo con progreso, cronograma, estados académicos y compatibilidad entre planes.</li>
+                    <li class="placeholder">Visualización de correlatividades, materias habilitadas y bloqueos futuros.</li>
+                  </ul>
+                </div>
+
+                <div class="chapter__block">
+                  <h3>Vista previa</h3>
+                  <video class="media-preview" autoplay muted loop playsinline>
+                    <source src="assets/video/plan-estudios.mp4" type="video/mp4">
+                  </video>
+                </div>
+
+                <p class="footnote" style="margin-bottom:12px;">
+                  Esta herramienta vive fuera de este repositorio (desplegada en Firebase).
+                  El enlace abre en una pestaña nueva.
+                </p>
+
+                <a class="chapter__cta external" href="https://mapa-ing-industrial-b9519.web.app/" target="_blank" rel="noopener noreferrer">
+                  Abrir Plan de estudios académico ↗
+                </a>
+
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- ---- 04 · Geppetto (open source, trabajo profesional) ---- -->
+        <article class="chapter" id="geppetto">
+          <button class="chapter__row" aria-expanded="false" aria-controls="panel-geppetto">
+            <span class="title">
+              <span class="chapter__eyebrow">04</span>
+              <h2>Geppetto</h2>
+              <p class="tagline">Un punto de acceso a múltiples modelos de IA desde Slack.</p>
+            </span>
+            <span class="tag external">código abierto</span>
+            <svg class="chevron" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M7 1V13M1 7H13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+          </button>
+
+          <div class="chapter__panel" id="panel-geppetto">
+            <div class="chapter__panel-inner">
+              <div class="chapter__body">
+
+                <div class="chapter__block">
+                  <h3>El problema</h3>
+                  <p >Acercar la IA al trabajo diario a través de Slack, sin que el costo fuera un obstáculo.</p>
+                </div>
+
+                <div class="chapter__block">
+                  <h3>Mi rol</h3>
+                  <p >Lideré la iniciativa y coordiné el desarrollo del proyecto. Trabajé en la definición de requerimientos, las pruebas funcionales y el seguimiento del equipo hasta su implementación y mantenimiento interno.</p>
+                </div>
+
+                <div class="chapter__block">
+                  <h3>Qué incluye</h3>
+                  <ul>
+                    <li >Integración con múltiples proveedores de LLM y arquitectura basada en APIs.</li>
+                    <li >Comandos desde Slack y un sistema modular para incorporar nuevos modelos y funcionalidades.</li>
+                  </ul>
+                </div>
+
+                <p class="footnote" style="margin-bottom:12px;">
+                  Proyecto de código abierto. El enlace abre en una pestaña nueva.
+                </p>
+
+                <a class="chapter__cta external" href="https://github.com/Deeptechia/geppetto" target="_blank" rel="noopener noreferrer">
+                  Ver Geppetto en GitHub ↗
+                </a>
+
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </section>
+
+      <footer class="site-footer">
+        <p>Federico Patagua ·  Agosto 2026</p>
+      </footer>
+
+    </div>
+  </main>
+
+</div>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

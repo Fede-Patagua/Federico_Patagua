@@ -1,0 +1,2334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Horarios — Ingeniería Industrial · UTN Avellaneda</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --utn-blue: #003C6E;
+    --utn-blue-mid: #005499;
+    --utn-blue-light: #0074C8;
+    --utn-cyan: #00AEEF;
+    --utn-white: #FFFFFF;
+    --utn-gray-light: #E8EEF4;
+    --utn-gray: #6B8099;
+    --utn-dark: #001A30;
+
+    --y1: #0074C8;
+    --y2: #0096D6;
+    --y3: #00AEEF;
+    --y4: #00C4B4;
+    --y5: #005499;
+
+    --glow: 0 0 24px rgba(0,174,239,0.18);
+    --card-bg: rgba(0,60,110,0.55);
+    --card-border: rgba(0,174,239,0.22);
+    --font-display: 'Barlow Condensed', sans-serif;
+    --font-body: 'Barlow', sans-serif;
+  }
+
+  /* ── LIGHT THEME OVERRIDES ── */
+  body.theme-light {
+    --utn-white: #003C6E;
+    --utn-gray: #4A6580;
+    --utn-dark: #FFFFFF;
+    --card-bg: rgba(255,255,255,0.85);
+    --card-border: rgba(0,84,153,0.18);
+    --glow: 0 2px 14px rgba(0,84,153,0.12);
+    --text-primary: #003C6E;
+    --text-secondary: #005499;
+  }
+
+  body.theme-light { background: #F0F5FA; color: #003C6E; }
+
+  body.theme-light::before {
+    background:
+      radial-gradient(ellipse 80% 60% at 10% 0%, rgba(0,174,239,0.10) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 90% 100%, rgba(0,116,200,0.08) 0%, transparent 60%),
+      linear-gradient(160deg, #FFFFFF 0%, #EEF4FA 50%, #E4EFF8 100%);
+  }
+  body.theme-light::after {
+    background-image:
+      linear-gradient(rgba(0,84,153,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,84,153,0.05) 1px, transparent 1px);
+  }
+
+  body.theme-light header {
+    background: rgba(255,255,255,0.95);
+    border-bottom: 1px solid rgba(0,84,153,0.15);
+    box-shadow: 0 2px 16px rgba(0,60,110,0.08);
+  }
+  body.theme-light .header-titles h1 { color: #003C6E; }
+  body.theme-light .header-titles p  { color: #0074C8; }
+  body.theme-light .live-clock       { color: #005499; text-shadow: none; }
+
+  body.theme-light .nav-tab {
+    border-color: rgba(0,84,153,0.25);
+    color: #5A7A99;
+  }
+  body.theme-light .nav-tab:hover { border-color: #0074C8; color: #003C6E; }
+  body.theme-light .nav-tab.active {
+    background: #003C6E;
+    border-color: #003C6E;
+    color: #FFFFFF;
+  }
+
+  body.theme-light .day-btn {
+    background: rgba(255,255,255,0.8);
+    border-color: rgba(0,84,153,0.2);
+    color: #5A7A99;
+    box-shadow: 0 1px 4px rgba(0,60,110,0.08);
+  }
+  body.theme-light .day-btn:hover { color: #003C6E; border-color: #0074C8; }
+  body.theme-light .day-btn.active {
+    background: linear-gradient(135deg, #003C6E, #005499);
+    border-color: #0074C8;
+    color: #FFFFFF;
+    box-shadow: 0 4px 16px rgba(0,60,110,0.25);
+  }
+  body.theme-light .day-btn .day-count { color: #0074C8; }
+
+  body.theme-light .day-header-strip { border-bottom-color: rgba(0,84,153,0.15); }
+  body.theme-light .day-header-strip h2 { color: #003C6E; }
+  body.theme-light .day-header-strip .day-sub { color: #6B8099; }
+
+  body.theme-light .year-column {
+    background: rgba(255,255,255,0.92);
+    border-color: rgba(0,84,153,0.15);
+    box-shadow: 0 2px 12px rgba(0,60,110,0.07);
+  }
+  body.theme-light .year-title { color: #003C6E; }
+  body.theme-light .year-subtitle { color: #6B8099; }
+
+  body.theme-light .subject-card {
+    background: rgba(240,247,255,0.8);
+    border-color: rgba(0,84,153,0.12);
+  }
+  body.theme-light .subject-card:hover {
+    border-color: rgba(0,116,200,0.4);
+    background: #FFFFFF;
+    box-shadow: 0 2px 12px rgba(0,84,153,0.12);
+  }
+  body.theme-light .subject-name { color: #002A52; }
+
+  body.theme-light .tag-comision { background: rgba(0,116,200,0.1); color: #005499; border-color: rgba(0,116,200,0.25); }
+  body.theme-light .tag-turno-M  { background: rgba(200,120,0,0.08); color: #B06000; border-color: rgba(200,120,0,0.2); }
+  body.theme-light .tag-turno-T  { background: rgba(200,90,0,0.08);  color: #9A4800; border-color: rgba(200,90,0,0.2); }
+  body.theme-light .tag-turno-N  { background: rgba(0,60,130,0.08);  color: #004080; border-color: rgba(0,60,130,0.2); }
+  body.theme-light .tag-hours    { background: rgba(0,140,160,0.08); color: #006070; border-color: rgba(0,140,160,0.2); }
+  body.theme-light .badge-sat { background: rgba(180,30,50,0.1); color: #A01020; border-color: rgba(180,30,50,0.3); }
+
+  body.theme-light .legend-bar {
+    background: rgba(255,255,255,0.9);
+    border-top-color: rgba(0,84,153,0.12);
+  }
+  body.theme-light .legend-item { color: #5A7A99; }
+
+  body.theme-light .empty-day { color: #7A9AB5; }
+
+  /* Summary light */
+  body.theme-light .summary-day-card {
+    background: rgba(255,255,255,0.92);
+    border-color: rgba(0,84,153,0.15);
+    box-shadow: 0 2px 10px rgba(0,60,110,0.07);
+  }
+  body.theme-light .summary-day-header {
+    background: linear-gradient(90deg, rgba(0,60,110,0.07), transparent);
+    border-bottom-color: rgba(0,84,153,0.12);
+  }
+  body.theme-light .summary-day-header h3 { color: #003C6E; }
+  body.theme-light .summary-day-header .count { color: #0074C8; }
+  body.theme-light .summary-item { background: rgba(230,242,252,0.6); color: #002A52; }
+  body.theme-light .summary-item .curso-tag { color: #0074C8; }
+  body.theme-light .summary-title { color: #003C6E; }
+  body.theme-light .summary-title span { color: #0074C8; }
+
+  /* Edit light */
+  body.theme-light .edit-section {
+    background: rgba(255,255,255,0.92);
+    border-color: rgba(0,84,153,0.15);
+    box-shadow: 0 2px 10px rgba(0,60,110,0.07);
+  }
+  body.theme-light .edit-title   { color: #003C6E; }
+  body.theme-light .edit-subtitle { color: #6B8099; }
+  body.theme-light .time-row {
+    background: rgba(230,242,252,0.7);
+    border-color: rgba(0,84,153,0.12);
+  }
+  body.theme-light .time-label { color: #003C6E; }
+  body.theme-light .time-input {
+    background: #FFFFFF;
+    border-color: rgba(0,84,153,0.3);
+    color: #003C6E;
+  }
+  body.theme-light .time-input:focus { border-color: #0074C8; }
+  body.theme-light .time-sep { color: #6B8099; }
+  body.theme-light .subject-edit-table th { color: #0074C8; border-bottom-color: rgba(0,84,153,0.15); }
+  body.theme-light .subject-edit-table td { border-bottom-color: rgba(0,84,153,0.07); color: #003C6E; }
+  body.theme-light .subject-edit-table tr:hover td { background: rgba(0,116,200,0.05); }
+  body.theme-light .edit-input  { background: #FFFFFF; border-color: rgba(0,84,153,0.2); color: #003C6E; }
+  body.theme-light .edit-select { background: #FFFFFF; border-color: rgba(0,84,153,0.2); color: #003C6E; }
+  body.theme-light .btn-save {
+    background: linear-gradient(135deg, #003C6E, #005499);
+    border-color: #0074C8;
+    color: #FFFFFF;
+    box-shadow: 0 4px 14px rgba(0,60,110,0.2);
+  }
+  body.theme-light .save-notice { color: #6B8099; }
+  body.theme-light footer { color: #6B8099; border-top-color: rgba(0,84,153,0.12); }
+
+  /* Year column light accents - keep same colors but adjust badge bg */
+  body.theme-light .year-1 .year-badge { background: rgba(0,116,200,0.1); }
+  body.theme-light .year-1 .year-header { background: rgba(0,116,200,0.08); }
+  body.theme-light .year-2 .year-badge { background: rgba(0,150,214,0.1); }
+  body.theme-light .year-2 .year-header { background: rgba(0,150,214,0.08); }
+  body.theme-light .year-3 .year-badge { background: rgba(0,174,239,0.1); }
+  body.theme-light .year-3 .year-header { background: rgba(0,174,239,0.08); }
+  body.theme-light .year-4 .year-badge { background: rgba(0,196,180,0.1); }
+  body.theme-light .year-4 .year-header { background: rgba(0,196,180,0.09); }
+  body.theme-light .year-5 .year-badge { background: rgba(0,84,153,0.1); }
+  body.theme-light .year-5 .year-header { background: rgba(0,84,153,0.08); }
+
+
+  /* ── LOADING SCHEDULE ── */
+  .loading-schedule {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 80px 20px;
+  }
+  .loading-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--utn-cyan);
+    animation: loadPulse 0.9s ease-in-out infinite;
+    opacity: 0.3;
+  }
+  .loading-dot:nth-child(2) { animation-delay: 0.2s; }
+  .loading-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes loadPulse {
+    0%,100% { opacity: 0.3; transform: scale(0.8); }
+    50%      { opacity: 1;   transform: scale(1.2); }
+  }
+
+
+  /* ── EXPORT BUTTON ── */
+  .btn-export {
+    display: flex; align-items: center; gap: 0.4rem;
+    padding: 0.45rem 0.85rem;
+    border: 1px solid var(--utn-cyan);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--utn-cyan);
+    font-size: 0.8125rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    white-space: nowrap;
+  }
+  .btn-export:hover { background: rgba(0,174,239,0.15); box-shadow: 0 2px 12px rgba(0,174,239,0.3); }
+  body.theme-light .btn-export { border-color: #0074C8; color: #0074C8; }
+  body.theme-light .btn-export:hover { background: rgba(0,116,200,0.1); }
+  .btn-export.exporting { opacity: 0.6; pointer-events: none; }
+
+  /* Theme toggle button */
+  .theme-toggle {
+    background: transparent;
+    border: 1px solid rgba(0,174,239,0.3);
+    border-radius: 20px;
+    padding: 5px 14px;
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--utn-gray);
+    transition: all 0.25s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  .theme-toggle:hover { border-color: var(--utn-cyan); color: var(--utn-white); }
+  body.theme-light .theme-toggle {
+    border-color: rgba(0,84,153,0.25);
+    color: #5A7A99;
+  }
+  body.theme-light .theme-toggle:hover { border-color: #0074C8; color: #003C6E; }
+  .theme-toggle .toggle-icon { font-size: 0.875rem; }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--utn-dark);
+    color: var(--utn-white);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: background 0.35s ease, color 0.35s ease;
+  }
+
+  /* ── BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 10% 0%, rgba(0,84,153,0.45) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 90% 100%, rgba(0,116,200,0.3) 0%, transparent 60%),
+      linear-gradient(160deg, #001A30 0%, #001F3A 50%, #001530 100%);
+    z-index: 0;
+    pointer-events: none;
+    transition: background 0.35s ease;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,174,239,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,174,239,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    z-index: 0;
+    pointer-events: none;
+    transition: background-image 0.35s ease;
+  }
+
+  #app { position: relative; z-index: 1; }
+
+  /* ── HEADER ── */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 36px;
+    background: rgba(0,28,55,0.85);
+    border-bottom: 1px solid var(--card-border);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .utn-logo {
+    width: 48px; height: 48px;
+    flex-shrink: 0;
+  }
+
+  .header-titles h1 {
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--utn-white);
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .header-titles p {
+    font-size: 0.6875rem;
+    font-weight: 400;
+    color: var(--utn-cyan);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .live-clock {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--utn-cyan);
+    letter-spacing: 2px;
+    text-shadow: var(--glow);
+  }
+
+  .nav-tabs {
+    display: flex;
+    gap: 4px;
+  }
+  .nav-tab {
+    background: transparent;
+    border: 1px solid rgba(0,174,239,0.25);
+    color: var(--utn-gray);
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    padding: 7px 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 3px;
+  }
+  .nav-tab:hover { border-color: var(--utn-cyan); color: var(--utn-white); }
+  .nav-tab.active {
+    background: var(--utn-cyan);
+    border-color: var(--utn-cyan);
+    color: var(--utn-dark);
+    font-weight: 700;
+  }
+
+  /* ── DAY SELECTOR ── */
+  .day-selector-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 24px;
+    flex-wrap: wrap;
+  }
+
+  .day-btn {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    color: var(--utn-gray);
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    cursor: pointer;
+    transition: all 0.22s cubic-bezier(.4,0,.2,1);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    min-width: 80px;
+  }
+  .day-btn::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 50%; right: 50%;
+    height: 2px;
+    background: var(--utn-cyan);
+    transition: all 0.22s;
+  }
+  .day-btn:hover { color: var(--utn-white); border-color: var(--utn-cyan); }
+  .day-btn:hover::after { left: 0; right: 0; }
+  .day-btn.active {
+    background: linear-gradient(135deg, var(--utn-blue-mid), var(--utn-blue-light));
+    border-color: var(--utn-cyan);
+    color: var(--utn-white);
+    box-shadow: 0 4px 20px rgba(0,116,200,0.4), var(--glow);
+  }
+  .day-btn.active::after { left: 0; right: 0; }
+  .day-btn .day-count {
+    display: block;
+    font-size: 0.625rem;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    color: var(--utn-cyan);
+    text-transform: none;
+    margin-top: 1px;
+  }
+
+  /* ── MAIN VIEW ── */
+  #view-schedule { display: block; }
+  #view-summary  { display: none; }
+  #view-edit     { display: none; }
+
+  /* ── SCHEDULE GRID (legacy, unused) ── */
+  .schedule-container { display: none; }
+  .day-header-strip   { display: none; }
+
+  /* ════════════════════════════════════════════════════════
+     TV TIMETABLE  —  filas = Años · columnas = Bloques
+     ════════════════════════════════════════════════════════ */
+
+  /* Wrapper that fills viewport height minus header + controls + legend bars */
+  .tv-wrapper {
+    padding: 0 12px 6px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: auto;
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* The grid itself */
+  .cal-grid {
+    display: grid;
+    /* col 0 = year label (fixed), cols 1-N = one per block */
+    gap: 0;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    overflow: hidden;
+    flex: 1;
+    min-height: 0;
+    min-width: 420px; /* ensures grid never collapses below readable size */
+  }
+
+  /* ── Header cells (block labels, row 1) ── */
+  .cal-corner {
+    background: rgba(0,12,28,0.9);
+    border-right: 1px solid rgba(255,255,255,0.07);
+    border-bottom: 1px solid rgba(255,255,255,0.10);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cal-corner-inner {
+    font-family: var(--font-display);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+  }
+
+  .cal-block-header {
+    /* Grid column exists for span logic, but header row is invisible */
+    height: 0;
+    overflow: hidden;
+    border: none;
+    padding: 0;
+  }
+  .cal-bl-num, .cal-bl-time { display: none; }
+
+  /* ── Year row labels (col 0, rows 2+) ── */
+  .cal-year-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    border-right: 1px solid rgba(255,255,255,0.07);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 4px 3px;
+    background: rgba(0,12,28,0.7);
+    position: relative;
+    overflow: hidden;
+    min-width: 44px;
+    width: 44px;
+    flex-shrink: 0;
+  }
+  .cal-year-label::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+  }
+  .cal-year-label.yr-1::before { background: var(--y1); }
+  .cal-year-label.yr-2::before { background: var(--y2); }
+  .cal-year-label.yr-3::before { background: var(--y3); }
+  .cal-year-label.yr-4::before { background: var(--y4); }
+  .cal-year-label.yr-5::before { background: var(--y5); }
+  .cal-year-label.last-row { border-bottom: none; }
+
+  .cal-yr-badge {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 900;
+    line-height: 1;
+    color: rgba(255,255,255,0.75);
+    text-align: center;
+  }
+  .cal-yr-name {
+    font-family: var(--font-display);
+    font-size: 0.42rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.30);
+    text-align: center;
+    line-height: 1.2;
+    word-break: break-word;
+  }
+
+  /* Pastel color per year — badge + label text match subject name colors */
+  .cal-year-label.yr-1 .cal-yr-badge,
+  .cal-year-label.yr-1 .cal-yr-name { color: var(--pastel-1); }
+  .cal-year-label.yr-2 .cal-yr-badge,
+  .cal-year-label.yr-2 .cal-yr-name { color: var(--pastel-2); }
+  .cal-year-label.yr-3 .cal-yr-badge,
+  .cal-year-label.yr-3 .cal-yr-name { color: var(--pastel-3); }
+  .cal-year-label.yr-4 .cal-yr-badge,
+  .cal-year-label.yr-4 .cal-yr-name { color: var(--pastel-4); }
+  .cal-year-label.yr-5 .cal-yr-badge,
+  .cal-year-label.yr-5 .cal-yr-name { color: var(--pastel-5); }
+
+  /* Light theme — same darker tones used for subject names */
+  body.theme-light .cal-year-label.yr-1 .cal-yr-badge,
+  body.theme-light .cal-year-label.yr-1 .cal-yr-name { color: #1A6A8A; }
+  body.theme-light .cal-year-label.yr-2 .cal-yr-badge,
+  body.theme-light .cal-year-label.yr-2 .cal-yr-name { color: #2A7040; }
+  body.theme-light .cal-year-label.yr-3 .cal-yr-badge,
+  body.theme-light .cal-year-label.yr-3 .cal-yr-name { color: #8A4A00; }
+  body.theme-light .cal-year-label.yr-4 .cal-yr-badge,
+  body.theme-light .cal-year-label.yr-4 .cal-yr-name { color: #5A2A80; }
+  body.theme-light .cal-year-label.yr-5 .cal-yr-badge,
+  body.theme-light .cal-year-label.yr-5 .cal-yr-name { color: #8A1A40; }
+
+  /* ── Data cells ── */
+  .cal-cell {
+    border-right: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.02);
+    padding: 7px 9px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    overflow: visible;
+    min-width: 0;
+    max-width: 100%;
+    position: relative;
+    word-break: break-word;
+  }
+
+
+  /* left accent bar = year color */
+  .cal-cell::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    opacity: 0.5;
+  }
+  .cal-cell.yr-1::before { background: var(--y1); }
+  .cal-cell.yr-2::before { background: var(--y2); }
+  .cal-cell.yr-3::before { background: var(--y3); }
+  .cal-cell.yr-4::before { background: var(--y4); }
+  .cal-cell.yr-5::before { background: var(--y5); }
+
+  .cal-cell.cal-cell-empty {
+    background: rgba(0,0,0,0.05);
+  }
+  /* last column: no right border */
+  .cal-cell.last-col,
+  .cal-block-header.last-col { border-right: none; }
+  /* last row: no bottom border */
+  .cal-cell.last-row,
+  .cal-year-label.last-row { border-bottom: none; }
+
+  /* ══════════════════════════════════════════════════════
+     TV SUBJECT CARD — rediseño para legibilidad en pantalla
+     Jerarquía: HORA grande → Nombre → Comisión(es)
+     ══════════════════════════════════════════════════════ */
+  .tv-subject {
+    background: rgba(255,255,255,0.055);
+    border-radius: 6px;
+    padding: 6px 8px 6px 10px;
+    border-left: 3px solid rgba(255,255,255,0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    flex-shrink: 1;
+    overflow: visible;
+  }
+
+  /* Nombre de la materia — legible pero no lo primero en jerarquía visual */
+  .tv-sub-name {
+    font-family: var(--font-display);
+    font-size: clamp(0.88rem, 1.35vw, 1.15rem);
+    font-weight: 700;
+    color: rgba(255,255,255,0.88);
+    line-height: 1.2;
+    white-space: normal;
+    word-break: break-word;
+    overflow: visible;
+    letter-spacing: 0.2px;
+  }
+
+  /* Contenedor de comisiones */
+  .tv-com-list {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  /* Fila de una comisión: HORA grande a la izquierda, pill de comisión a la derecha */
+  .tv-com-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    min-width: 0;
+    flex-wrap: wrap;
+  }
+
+  /* HORA — protagonista, grande y clara */
+  .tv-com-time {
+    font-family: var(--font-display);
+    font-size: clamp(0.88rem, 1.25vw, 1.1rem);
+    font-weight: 800;
+    color: rgba(255,255,255,0.95);
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  /* Separador · entre hora inicio y fin */
+  .tv-com-time .time-sep {
+    color: rgba(255,255,255,0.4);
+    margin: 0 1px;
+    font-weight: 400;
+  }
+
+  /* Pill de comisión — compacto, color distintivo */
+  .tv-com-id {
+    font-family: var(--font-display);
+    font-size: clamp(0.56rem, 0.8vw, 0.72rem);
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding: 1px 6px;
+    border-radius: 3px;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.75);
+    line-height: 1.5;
+  }
+
+  /* Estrella sábado */
+  .tv-sat {
+    font-family: var(--font-display);
+    font-size: 0.58rem;
+    font-weight: 800;
+    color: rgba(255,120,120,0.9);
+    white-space: nowrap;
+    flex-shrink: 0;
+    background: rgba(255,80,80,0.12);
+    border: 1px solid rgba(255,80,80,0.3);
+    border-radius: 3px;
+    padding: 1px 4px;
+  }
+
+  /* Turno badge — pequeño, contextual */
+  .tv-turno-badge {
+    font-family: var(--font-display);
+    font-size: 0.52rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border-radius: 3px;
+    padding: 1px 4px;
+    line-height: 1.4;
+    white-space: nowrap;
+    flex-shrink: 0;
+    border: 1px solid transparent;
+    display: none; /* oculto por defecto — ya se filtra por turno */
+  }
+  .tv-turno-M { color: #B8860B; background: rgba(184,134,11,0.15); border-color: rgba(184,134,11,0.30); }
+  .tv-turno-T { color: #C06000; background: rgba(192,96,0,0.14);   border-color: rgba(192,96,0,0.28); }
+  .tv-turno-N { color: #5B8AC0; background: rgba(60,100,190,0.14); border-color: rgba(60,100,190,0.28); }
+
+  /* Light theme */
+  body.theme-light .tv-sub-name   { color: rgba(0,20,50,0.90); }
+  body.theme-light .tv-com-time   { color: rgba(0,20,60,0.95); }
+  body.theme-light .tv-com-id     { background: rgba(0,60,120,0.10); border-color: rgba(0,60,120,0.20); color: rgba(0,40,100,0.70); }
+  body.theme-light .tv-sat        { color: #C01020; background: rgba(200,20,20,0.08); border-color: rgba(200,20,20,0.25); }
+  body.theme-light .tv-turno-M    { color: #8A6200; background: rgba(184,134,11,0.10); border-color: rgba(184,134,11,0.25); }
+  body.theme-light .tv-turno-T    { color: #9A4800; background: rgba(192,96,0,0.09);   border-color: rgba(192,96,0,0.22); }
+  body.theme-light .tv-turno-N    { color: #2A5A9A; background: rgba(60,100,190,0.09); border-color: rgba(60,100,190,0.22); }
+
+  /* ── COLORES PASTEL POR AÑO — solo nombre de materia ── */
+  /* Fijos, independientes del día y turno */
+  :root {
+    --pastel-1: #A8D8EA;  /* celeste pastel  — 1° año */
+    --pastel-2: #B8E0B0;  /* verde pastel    — 2° año */
+    --pastel-3: #F9C9A0;  /* naranja pastel  — 3° año */
+    --pastel-4: #D4B8E0;  /* lila pastel     — 4° año */
+    --pastel-5: #F4A8B8;  /* rosa pastel     — 5° año */
+  }
+
+  .tv-sub-name.yr-name-1 { color: var(--pastel-1) !important; }
+  .tv-sub-name.yr-name-2 { color: var(--pastel-2) !important; }
+  .tv-sub-name.yr-name-3 { color: var(--pastel-3) !important; }
+  .tv-sub-name.yr-name-4 { color: var(--pastel-4) !important; }
+  .tv-sub-name.yr-name-5 { color: var(--pastel-5) !important; }
+
+  /* Light theme: versiones más oscuras del mismo tono para mantener contraste */
+  body.theme-light .tv-sub-name.yr-name-1 { color: #1A6A8A !important; }
+  body.theme-light .tv-sub-name.yr-name-2 { color: #2A7040 !important; }
+  body.theme-light .tv-sub-name.yr-name-3 { color: #8A4A00 !important; }
+  body.theme-light .tv-sub-name.yr-name-4 { color: #5A2A80 !important; }
+  body.theme-light .tv-sub-name.yr-name-5 { color: #8A1A40 !important; }
+
+  /* ── Light theme overrides for TV table ── */
+  body.theme-light .cal-grid  { border-color: rgba(0,60,110,0.15); }
+  body.theme-light .cal-corner,
+  body.theme-light .cal-block-header { background: rgba(240,246,252,0.95); border-color: rgba(0,60,110,0.10); }
+  body.theme-light .cal-bl-num  { color: rgba(0,40,90,0.55); }
+  body.theme-light .cal-bl-time { color: rgba(0,40,90,0.30); }
+  body.theme-light .cal-year-label { background: rgba(240,246,252,0.8); border-color: rgba(0,60,110,0.10); }
+  body.theme-light .cal-yr-badge  { color: rgba(0,40,90,0.75); }
+  body.theme-light .cal-yr-name   { color: rgba(0,40,90,0.35); }
+  body.theme-light .cal-cell { background: rgba(255,255,255,0.6); border-color: rgba(0,60,110,0.07); }
+  body.theme-light .cal-cell.cal-cell-empty { background: rgba(240,248,255,0.35); }
+  body.theme-light .tv-subject { background: rgba(0,40,90,0.05); border-left-color: rgba(0,60,110,0.20); }
+  body.theme-light .tv-sub-name  { color: rgba(0,20,50,0.90); }
+  body.theme-light .tv-com-id    { color: rgba(0,40,90,0.50); }
+  body.theme-light .tv-com-time  { color: rgba(0,40,90,0.35); }
+  body.theme-light .cal-corner-inner { color: rgba(0,40,90,0.20); }
+
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Keep year-column / year-badge etc for backward compat (summary view) */
+  .year-column {
+    background: rgba(0,40,75,0.5);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+  }
+  .year-header {
+    padding: 7px 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--card-border);
+  }
+  .year-badge {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 900;
+    flex-shrink: 0;
+  }
+  .year-title {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+  .year-subtitle { font-size: 0.5625rem; color: var(--utn-gray); }
+  .year-body { padding: 6px 8px 8px; display: flex; flex-direction: column; gap: 0; }
+
+  /* ── SUBJECT BLOCK (grouped) ── */
+  .subject-group-block {
+    border-bottom: 1px solid rgba(0,174,239,0.08);
+    padding-bottom: 4px;
+    margin-bottom: 4px !important;
+  }
+  .subject-group-block:last-child { border-bottom: none; }
+
+  .subject-name {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--utn-white);
+    line-height: 1.3;
+    padding: 4px 4px 2px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  /* ── FLAT COMMISSION ROW ── */
+  .subject-card {
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
+    align-items: center;
+    gap: 0;
+    padding: 2px 4px 2px 6px;
+    border-radius: 3px;
+    transition: background 0.15s;
+    position: relative;
+    cursor: default;
+    border-left: 2px solid transparent;
+  }
+  .subject-card:hover {
+    background: rgba(0,116,200,0.1);
+  }
+
+  /* commission color left bar via data-com */
+  .subject-card[data-com="51"] { border-left-color: var(--com-51); }
+  .subject-card[data-com="52"] { border-left-color: var(--com-52); }
+  .subject-card[data-com="53"] { border-left-color: var(--com-53); }
+  .subject-card[data-com="54"] { border-left-color: var(--com-54); }
+  .subject-card[data-com="55"] { border-left-color: var(--com-55); }
+  .subject-card[data-com="56"] { border-left-color: var(--com-56); }
+  .subject-card[data-com="57"] { border-left-color: var(--com-57); }
+  .subject-card[data-com="58"] { border-left-color: var(--com-58); }
+
+  .subject-card::before { display: none; }
+
+  /* Monospaced horario text */
+  .com-row-id    { font-family: 'Courier New', monospace; font-size: 0.6875rem; font-weight: 700; min-width: 70px; }
+  .com-row-turno { font-size: 0.625rem; font-weight: 600; min-width: 36px; padding: 0 4px; }
+  .com-row-hours { font-family: 'Courier New', monospace; font-size: 0.6875rem; color: #4DD0E1; flex: 1; white-space: nowrap; }
+  .com-row-badge { display: flex; align-items: center; gap: 3px; margin-left: 4px; }
+
+  /* Saturday badge */
+  .badge-sat {
+    font-family: var(--font-display);
+    font-size: 0.5625rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    background: rgba(255,80,100,0.2);
+    color: #FF6B6B;
+    border: 1px solid rgba(255,80,100,0.4);
+    border-radius: 2px;
+    padding: 1px 4px;
+    animation: pulseSat 2.5s ease-in-out infinite;
+  }
+
+  /* Commission count badge on subject header */
+  .badge-count {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    background: rgba(0,174,239,0.15);
+    color: var(--utn-cyan);
+    border: 1px solid rgba(0,174,239,0.3);
+    border-radius: 2px;
+    padding: 1px 5px;
+    white-space: nowrap;
+  }
+
+  .subject-meta {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  /* Light theme adjustments for flat rows */
+  body.theme-light .subject-card:hover { background: rgba(0,116,200,0.06); }
+  body.theme-light .com-row-hours { color: #006070; }
+  body.theme-light .subject-group-block { border-bottom-color: rgba(0,84,153,0.1); }
+  body.theme-light .badge-count { background: rgba(0,116,200,0.1); color: #005499; border-color: rgba(0,116,200,0.25); }
+  .tag {
+    font-family: var(--font-display);
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 3px;
+    line-height: 1.5;
+  }
+  .tag-comision { background: rgba(0,174,239,0.15); color: var(--utn-cyan); border: 1px solid rgba(0,174,239,0.3); }
+  .tag-turno-M  { background: rgba(255,200,0,0.12); color: #FFD740; border: 1px solid rgba(255,200,0,0.3); }
+  .tag-turno-T  { background: rgba(255,130,0,0.12); color: #FFB74D; border: 1px solid rgba(255,130,0,0.25); }
+  .tag-turno-N  { background: rgba(70,130,220,0.15); color: #90CAF9; border: 1px solid rgba(100,160,240,0.25); }
+  .tag-hours { background: rgba(0,196,180,0.1); color: #4DD0E1; border: 1px solid rgba(0,196,180,0.25); }
+  @keyframes pulseSat {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.55; }
+  }
+
+  /* Year color accents */
+  .year-1 .year-badge { background: rgba(0,116,200,0.25); color: var(--y1); border: 1px solid rgba(0,116,200,0.5); }
+  .year-1 .year-header { border-left: 3px solid var(--y1); background: rgba(0,116,200,0.13); }
+
+  .year-2 .year-badge { background: rgba(0,150,214,0.25); color: var(--y2); border: 1px solid rgba(0,150,214,0.5); }
+  .year-2 .year-header { border-left: 3px solid var(--y2); background: rgba(0,150,214,0.13); }
+
+  .year-3 .year-badge { background: rgba(0,174,239,0.2); color: var(--y3); border: 1px solid rgba(0,174,239,0.45); }
+  .year-3 .year-header { border-left: 3px solid var(--y3); background: rgba(0,174,239,0.12); }
+
+  .year-4 .year-badge { background: rgba(0,196,180,0.2); color: var(--y4); border: 1px solid rgba(0,196,180,0.45); }
+  .year-4 .year-header { border-left: 3px solid var(--y4); background: rgba(0,196,180,0.12); }
+
+  .year-5 .year-badge { background: rgba(0,84,153,0.3); color: #80B8E8; border: 1px solid rgba(0,84,153,0.6); }
+  .year-5 .year-header { border-left: 3px solid var(--y5); background: rgba(0,84,153,0.18); }
+
+  .empty-day {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--utn-gray);
+    font-family: var(--font-display);
+    font-size: 1.0rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ── LEGEND ── */
+  .legend-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 5px 12px;
+    border-top: 1px solid var(--card-border);
+    background: rgba(0,20,40,0.5);
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.6875rem;
+    color: var(--utn-gray);
+  }
+  .legend-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+
+  /* ── SUMMARY VIEW ── */
+  .summary-container {
+    padding: 24px 36px 60px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .summary-title {
+    font-family: var(--font-display);
+    font-size: 2.0rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+    color: var(--utn-white);
+  }
+  .summary-title span { color: var(--utn-cyan); }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .summary-day-card {
+    background: rgba(0,40,75,0.5);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+  }
+  .summary-day-header {
+    background: linear-gradient(90deg, var(--utn-blue-mid), transparent);
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--card-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .summary-day-header h3 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  .summary-day-header .count {
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    color: var(--utn-cyan);
+    font-weight: 600;
+  }
+  .summary-day-body { padding: 12px; }
+  .summary-year-section { margin-bottom: 10px; }
+  .summary-year-label {
+    font-family: var(--font-display);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    display: inline-block;
+  }
+  .summary-item {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.8);
+    padding: 4px 8px;
+    border-left: 2px solid;
+    margin-bottom: 3px;
+    border-radius: 0 3px 3px 0;
+    background: rgba(0,60,110,0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .summary-item .curso-tag { font-size: 0.625rem; color: var(--utn-cyan); white-space: nowrap; }
+  .summary-item .sat-star { color: #FF8A80; font-size: 0.6875rem; margin-left: 4px; }
+
+  /* ── EDIT VIEW ── */
+  .edit-container {
+    padding: 24px 36px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .edit-title {
+    font-family: var(--font-display);
+    font-size: 2.0rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    color: var(--utn-white);
+  }
+  .edit-subtitle {
+    font-size: 0.8125rem;
+    color: var(--utn-gray);
+    margin-bottom: 24px;
+  }
+
+  .edit-section {
+    background: rgba(0,40,75,0.5);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(8px);
+  }
+  .edit-section h3 {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--utn-cyan);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .time-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+  }
+  .time-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0,60,110,0.4);
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid rgba(0,174,239,0.1);
+  }
+  .time-label {
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--utn-white);
+    width: 50px;
+    flex-shrink: 0;
+  }
+  .time-input {
+    background: rgba(0,20,40,0.6);
+    border: 1px solid rgba(0,174,239,0.3);
+    color: var(--utn-white);
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    width: 70px;
+    text-align: center;
+    outline: none;
+  }
+  .time-input:focus { border-color: var(--utn-cyan); box-shadow: 0 0 8px rgba(0,174,239,0.25); }
+  .time-sep { color: var(--utn-gray); font-size: 0.75rem; }
+
+  .subject-edit-table { width: 100%; border-collapse: collapse; }
+  .subject-edit-table th {
+    font-family: var(--font-display);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--utn-cyan);
+    padding: 6px 10px;
+    text-align: left;
+    border-bottom: 1px solid var(--card-border);
+  }
+  .subject-edit-table td {
+    padding: 6px 8px;
+    font-size: 0.75rem;
+    border-bottom: 1px solid rgba(0,174,239,0.07);
+    vertical-align: middle;
+  }
+  .subject-edit-table tr:hover td { background: rgba(0,116,200,0.07); }
+  .edit-input {
+    background: rgba(0,20,40,0.6);
+    border: 1px solid rgba(0,174,239,0.25);
+    color: var(--utn-white);
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    padding: 3px 7px;
+    border-radius: 3px;
+    width: 100%;
+    outline: none;
+  }
+  .edit-input:focus { border-color: var(--utn-cyan); }
+  .edit-select {
+    background: rgba(0,20,40,0.8);
+    border: 1px solid rgba(0,174,239,0.25);
+    color: var(--utn-white);
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    padding: 3px 6px;
+    border-radius: 3px;
+    outline: none;
+  }
+  .edit-select:focus { border-color: var(--utn-cyan); }
+  .edit-checkbox { accent-color: var(--utn-cyan); width: 15px; height: 15px; cursor: pointer; }
+  .btn-delete {
+    background: rgba(220,50,60,0.15);
+    border: 1px solid rgba(220,50,60,0.35);
+    color: #FF6B6B;
+    padding: 3px 8px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.6875rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    transition: all 0.15s;
+  }
+  .btn-delete:hover { background: rgba(220,50,60,0.3); }
+
+  .btn-add {
+    background: rgba(0,174,239,0.15);
+    border: 1px solid rgba(0,174,239,0.4);
+    color: var(--utn-cyan);
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    transition: all 0.2s;
+  }
+  .btn-add:hover { background: rgba(0,174,239,0.28); }
+
+  .btn-save {
+    background: linear-gradient(135deg, var(--utn-blue-mid), var(--utn-blue-light));
+    border: 1px solid var(--utn-cyan);
+    color: var(--utn-white);
+    padding: 10px 28px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-top: 16px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(0,116,200,0.3);
+  }
+  .btn-save:hover { box-shadow: 0 4px 24px rgba(0,174,239,0.5); transform: translateY(-1px); }
+
+  .save-notice {
+    font-size: 0.6875rem;
+    color: var(--utn-gray);
+    margin-top: 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .save-notice::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #4CAF50; flex-shrink: 0; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 14px;
+    font-size: 0.625rem;
+    color: var(--utn-gray);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border-top: 1px solid var(--card-border);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    header { padding: 10px 14px; }
+    .header-title { font-size: 1.3rem; }
+    .header-sub   { font-size: 0.6rem; }
+    .day-selector-bar { padding: 10px 10px; gap: 5px; }
+    .day-btn { min-width: auto; padding: 7px 11px; font-size: 0.78rem; }
+    .schedule-container { padding: 6px 8px 40px; }
+    .summary-container, .edit-container { padding: 12px; }
+    .schedule-controls { gap: 5px; font-size: 0.8rem; }
+    .ctrl-btn { padding: 4px 8px; font-size: 0.72rem; }
+    .ctrl-label { font-size: 0.7rem; }
+    .cal-day-name { font-size: 1.1rem; letter-spacing: 2px; }
+    .tv-wrapper { padding: 0 6px 6px; }
+    .tv-sub-name { font-size: 0.72rem; }
+    .tv-com-id, .tv-com-time { font-size: 0.62rem; }
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 8px 10px; gap: 6px; }
+    .header-title { font-size: 1.1rem; }
+    .header-sub   { display: none; }
+    .nav-tabs { gap: 4px; }
+    .tab-btn  { padding: 6px 10px; font-size: 0.72rem; }
+    .day-selector-bar { gap: 4px; overflow-x: auto; flex-wrap: nowrap; padding: 8px; }
+    .day-btn  { min-width: 64px; padding: 6px 8px; font-size: 0.70rem; flex-shrink: 0; }
+    .schedule-controls { gap: 4px; }
+    .ctrl-btn { padding: 3px 7px; font-size: 0.68rem; }
+    .ctrl-divider { display: none; }
+    .tv-wrapper { max-height: none; overflow-x: auto; }
+    .cal-day-name { font-size: 0.95rem; letter-spacing: 1.5px; }
+    .tv-subject { padding: 4px 5px 4px 7px; }
+    .tv-sub-name { font-size: 0.68rem; }
+    .tv-com-id, .tv-com-time { font-size: 0.58rem; }
+    .tv-turno-badge { font-size: 0.44rem; padding: 1px 3px; }
+    .cal-yr-badge { font-size: 0.9rem; }
+    .cal-yr-name  { display: none; }
+  }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: rgba(0,28,55,0.5); }
+  ::-webkit-scrollbar-thumb { background: var(--utn-blue-mid); border-radius: 3px; }
+
+  /* ── COMMISSION COLORS ── */
+  :root {
+    --com-51: #00AEEF;   /* celeste */
+    --com-52: #4CAF50;   /* verde */
+    --com-53: #E040FB;   /* magenta */
+    --com-54: #FF9800;   /* naranja */
+    --com-55: #F06292;   /* rosa */
+    --com-56: #26C6DA;   /* teal */
+    --com-57: #AED581;   /* verde claro */
+    --com-58: #FFD54F;   /* amarillo */
+  }
+
+  /* colored left bar by commission */
+  .subject-card[data-com="51"]::before { background: var(--com-51) !important; }
+  .subject-card[data-com="52"]::before { background: var(--com-52) !important; }
+  .subject-card[data-com="53"]::before { background: var(--com-53) !important; }
+  .subject-card[data-com="54"]::before { background: var(--com-54) !important; }
+  .subject-card[data-com="55"]::before { background: var(--com-55) !important; }
+  .subject-card[data-com="56"]::before { background: var(--com-56) !important; }
+  .subject-card[data-com="57"]::before { background: var(--com-57) !important; }
+  .subject-card[data-com="58"]::before { background: var(--com-58) !important; }
+
+  .tag-com-51 { background: rgba(0,174,239,0.18); color: var(--com-51); border: 1px solid rgba(0,174,239,0.4); }
+  .tag-com-52 { background: rgba(76,175,80,0.18); color: var(--com-52); border: 1px solid rgba(76,175,80,0.4); }
+  .tag-com-53 { background: rgba(224,64,251,0.15); color: var(--com-53); border: 1px solid rgba(224,64,251,0.4); }
+  .tag-com-54 { background: rgba(255,152,0,0.15); color: var(--com-54); border: 1px solid rgba(255,152,0,0.4); }
+  .tag-com-55 { background: rgba(240,98,146,0.15); color: var(--com-55); border: 1px solid rgba(240,98,146,0.4); }
+  .tag-com-56 { background: rgba(38,198,218,0.15); color: var(--com-56); border: 1px solid rgba(38,198,218,0.4); }
+  .tag-com-57 { background: rgba(174,213,129,0.15); color: var(--com-57); border: 1px solid rgba(174,213,129,0.4); }
+  .tag-com-58 { background: rgba(255,213,79,0.15); color: var(--com-58); border: 1px solid rgba(255,213,79,0.4); }
+
+  /* ── SUBJECT TYPE BADGE ── */
+  .tag-basica    { background: rgba(0,196,180,0.12); color: #4DD0E1; border: 1px solid rgba(0,196,180,0.3); }
+  .tag-carrera   { background: rgba(255,152,0,0.12); color: #FFB74D; border: 1px solid rgba(255,152,0,0.3); }
+  body.theme-light .tag-basica  { background: rgba(0,150,164,0.1); color: #00838F; border-color: rgba(0,150,164,0.3); }
+  body.theme-light .tag-carrera { background: rgba(200,100,0,0.1); color: #BF6000; border-color: rgba(200,100,0,0.3); }
+
+  /* ── FILTER & SORT CONTROLS (schedule view) ── */
+  .schedule-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    padding: 0 12px 8px;
+    max-width: 1600px;
+    margin: 0 auto;
+    row-gap: 6px;
+  }
+  .ctrl-label {
+    font-family: var(--font-display);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--utn-gray);
+  }
+  .ctrl-btn {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    color: var(--utn-gray);
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .ctrl-btn:hover { border-color: var(--utn-cyan); color: var(--utn-white); }
+  .ctrl-btn.active {
+    background: rgba(0,174,239,0.18);
+    border-color: var(--utn-cyan);
+    color: var(--utn-cyan);
+  }
+  .ctrl-divider { width: 1px; height: 20px; background: var(--card-border); margin: 0 4px; }
+  body.theme-light .ctrl-btn { background: rgba(255,255,255,0.8); border-color: rgba(0,84,153,0.2); color: #5A7A99; }
+  body.theme-light .ctrl-btn:hover { border-color: #0074C8; color: #003C6E; }
+  body.theme-light .ctrl-btn.active { background: rgba(0,116,200,0.1); border-color: #0074C8; color: #003C6E; }
+  body.theme-light .ctrl-divider { background: rgba(0,84,153,0.15); }
+  .ctrl-btn-M.active { background: rgba(184,134,11,0.18); border-color: #B8860B; color: #FFD740; }
+  .ctrl-btn-T.active { background: rgba(192,96,0,0.18);  border-color: #C06000; color: #FFB74D; }
+  .ctrl-btn-N.active { background: rgba(60,100,190,0.18); border-color: #5B8AC0; color: #90CAF9; }
+  body.theme-light .ctrl-btn-M.active { color: #8A6200; border-color: #B8860B; background: rgba(184,134,11,0.10); }
+  body.theme-light .ctrl-btn-T.active { color: #9A4800; border-color: #C06000; background: rgba(192,96,0,0.09); }
+  body.theme-light .ctrl-btn-N.active { color: #2A5A9A; border-color: #5B8AC0; background: rgba(60,100,190,0.09); }
+
+  /* ── SUBJECT GROUPING IN EDIT TABLE ── */
+  .subject-edit-table tr.group-header td {
+    background: rgba(0,60,110,0.4);
+    font-family: var(--font-display);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--utn-cyan);
+    padding: 8px 10px 4px;
+    border-bottom: none;
+  }
+  body.theme-light .subject-edit-table tr.group-header td { background: rgba(0,116,200,0.07); color: #0074C8; }
+
+  /* ── TIPO column in edit ── */
+  .edit-select-tipo { min-width: 90px; }
+
+  /* ── SUMMARY: grouped by subject ── */
+  .summary-subject-group { margin-bottom: 8px; }
+  .summary-subject-name {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 3px;
+    padding: 3px 8px;
+    border-radius: 3px 3px 0 0;
+  }
+  .summary-comision-row {
+    font-size: 0.7rem;
+    padding: 3px 8px 3px 16px;
+    border-left: 2px solid;
+    margin-bottom: 2px;
+    border-radius: 0 3px 3px 0;
+    background: rgba(0,60,110,0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255,255,255,0.8);
+  }
+  body.theme-light .summary-comision-row { background: rgba(230,242,252,0.6); color: #002A52; }
+  .summary-comision-row .curso-tag { font-size: 0.6rem; white-space: nowrap; }
+  .summary-comision-row .sat-star { color: #FF8A80; font-size: 0.6875rem; margin-left: 4px; }
+
+  /* ── Day + Turno floating header ── */
+  .cal-day-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px;
+    margin-bottom: 6px;
+    border-radius: 6px;
+    background: rgba(0,12,28,0.6);
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .cal-day-name {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 900;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.80);
+    transition: color 0.3s;
+  }
+  #view-schedule.turno-M .cal-day-header { background: rgba(184,134,11,0.12); border-color: rgba(184,134,11,0.30); }
+  #view-schedule.turno-M .cal-day-name   { color: #FFD740; }
+  #view-schedule.turno-T .cal-day-header { background: rgba(192,96,0,0.12);   border-color: rgba(192,96,0,0.30); }
+  #view-schedule.turno-T .cal-day-name   { color: #FFB74D; }
+  #view-schedule.turno-N .cal-day-header { background: rgba(60,100,190,0.12); border-color: rgba(60,100,190,0.30); }
+  #view-schedule.turno-N .cal-day-name   { color: #90CAF9; }
+  body.theme-light .cal-day-header { background: rgba(0,60,110,0.05); border-color: rgba(0,60,110,0.12); }
+  body.theme-light .cal-day-name   { color: #003C6E; }
+  body.theme-light #view-schedule.turno-M .cal-day-name { color: #8A6200; }
+  body.theme-light #view-schedule.turno-T .cal-day-name { color: #9A4800; }
+  body.theme-light #view-schedule.turno-N .cal-day-name { color: #2A5A9A; }
+
+  /* ── Per-cell turno background tint ── */
+  .cal-cell[data-turno="M"] { background: rgba(184,134,11,0.07); }
+  .cal-cell[data-turno="T"] { background: rgba(192,96,0,0.07); }
+  .cal-cell[data-turno="N"] { background: rgba(60,100,190,0.07); }
+  .cal-cell[data-turno="M"] .tv-subject { border-left-color: rgba(184,134,11,0.55); }
+  .cal-cell[data-turno="T"] .tv-subject { border-left-color: rgba(192,96,0,0.55); }
+  .cal-cell[data-turno="N"] .tv-subject { border-left-color: rgba(60,100,190,0.55); }
+  body.theme-light .cal-cell[data-turno="M"] { background: rgba(184,134,11,0.05); }
+  body.theme-light .cal-cell[data-turno="T"] { background: rgba(192,96,0,0.05); }
+  body.theme-light .cal-cell[data-turno="N"] { background: rgba(60,100,190,0.05); }
+
+
+
+
+
+
+</style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+<div id="app">
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-brand">
+      <svg class="utn-logo" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="48" height="48" rx="4" fill="#003C6E"/>
+        <text x="24" y="30" font-family="Arial Black,sans-serif" font-size="19" font-weight="900" fill="white" text-anchor="middle">UTN</text>
+        <rect x="6" y="33" width="36" height="2" fill="#00AEEF"/>
+        <text x="24" y="42" font-family="Arial,sans-serif" font-size="6.5" fill="#00AEEF" text-anchor="middle" letter-spacing="1">AVELLANEDA</text>
+      </svg>
+      <div class="header-titles">
+        <h1>Ingeniería Industrial</h1>
+        <p>Horarios de Cursada · 2026</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="live-clock" id="live-clock">--:--</div>
+      <button class="btn-export" onclick="exportToPNG()" id="btn-export" style="display:none">📷 Exportar PNG</button>
+      <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn">
+        <span class="toggle-icon">☀</span>
+        <span id="theme-toggle-label">Tema claro</span>
+      </button>
+      <nav class="nav-tabs">
+        <button class="nav-tab active" onclick="setView('schedule')">Horarios</button>
+        <button class="nav-tab" onclick="setView('summary')">Resumen</button>
+        <button class="nav-tab" onclick="setView('edit')">Editar</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- SCHEDULE VIEW -->
+  <div id="view-schedule">
+    <div class="day-selector-bar" id="day-selector"></div>
+    <!-- FILTER & SORT CONTROLS -->
+    <div class="schedule-controls">
+      <span class="ctrl-label">Filtrar:</span>
+      <button class="ctrl-btn active" id="filter-all" onclick="setFilter('all')">Todas</button>
+      <button class="ctrl-btn" id="filter-basica" onclick="setFilter('basica')">Básicas</button>
+      <button class="ctrl-btn" id="filter-carrera" onclick="setFilter('carrera')">Especialidad</button>
+      <div class="ctrl-divider"></div>
+      <span class="ctrl-label">Ordenar:</span>
+      <button class="ctrl-btn active" id="sort-horario" onclick="setSort('horario')">Por horario</button>
+      <button class="ctrl-btn" id="sort-alfa" onclick="setSort('alfa')">Alfabético</button>
+      <div class="ctrl-divider"></div>
+      <span class="ctrl-label">Turno:</span>
+<button class="ctrl-btn ctrl-btn-M" id="turno-M" onclick="setTurno('M')">☀ Mañana</button>
+      <button class="ctrl-btn ctrl-btn-T" id="turno-T" onclick="setTurno('T')">🌤 Tarde</button>
+      <button class="ctrl-btn ctrl-btn-N" id="turno-N" onclick="setTurno('N')">🌙 Noche</button>
+      <div class="ctrl-divider"></div>
+      <span class="ctrl-label" id="day-big-sub" style="font-size:0.7rem"></span>
+    </div>
+    <div class="tv-wrapper">
+      <div class="cal-day-header" id="cal-day-header">
+        <span class="cal-day-name" id="day-big-title">—</span>
+      </div>
+      <div class="cal-grid" id="years-grid"></div>
+    </div>
+    <div class="legend-bar">
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#90CAF9"></div> Turno Noche
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#FFD740"></div> Turno Mañana
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#FFB74D"></div> Turno Tarde
+      </div>
+      <div class="legend-item" style="margin-left:12px">
+        <span style="color:#FF8A80;font-weight:700;margin-right:4px">✱</span> Cursada mensual (1 sábado por mes)
+      </div>
+    </div>
+  </div>
+
+  <!-- SUMMARY VIEW -->
+  <div id="view-summary">
+    <div class="summary-container">
+      <div class="summary-title">Resumen semanal — <span>Materias por día</span></div>
+      <div id="summary-content"></div>
+    </div>
+  </div>
+
+  <!-- EDIT VIEW -->
+  <div id="view-edit">
+    <div class="edit-container">
+      <div class="edit-title">Editar datos</div>
+      <div class="edit-subtitle">Los cambios se guardan en el navegador (localStorage). Al recargar, se conservarán.</div>
+
+      <!-- Time blocks -->
+      <div class="edit-section">
+        <h3>Bloques horarios</h3>
+        <div style="display:flex;gap:24px;flex-wrap:wrap;">
+          <div>
+            <div style="font-family:var(--font-display);font-size: 0.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--utn-cyan);margin-bottom:8px;">☀ Mañana</div>
+            <div class="time-grid" id="time-grid-M"></div>
+          </div>
+          <div>
+            <div style="font-family:var(--font-display);font-size: 0.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--utn-cyan);margin-bottom:8px;">🌤 Tarde</div>
+            <div class="time-grid" id="time-grid-T"></div>
+          </div>
+          <div>
+            <div style="font-family:var(--font-display);font-size: 0.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--utn-cyan);margin-bottom:8px;">🌙 Noche</div>
+            <div class="time-grid" id="time-grid-N"></div>
+          </div>
+        </div>
+        <button class="btn-save" style="margin-top:14px" onclick="saveTimesToStorage()">Guardar horarios</button>
+      </div>
+
+      <!-- Subjects table -->
+      <div class="edit-section">
+        <h3>Materias y comisiones</h3>
+        <div style="overflow-x:auto;">
+          <table class="subject-edit-table" id="edit-table">
+            <thead>
+              <tr>
+                <th>Materia</th>
+                <th>Comisión</th>
+                <th>Tipo</th>
+                <th>Turno</th>
+                <th>Día 1</th>
+                <th>Día 2</th>
+                <th>Bloques</th>
+                <th>Sáb.mensual</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="edit-tbody"></tbody>
+          </table>
+        </div>
+        <button class="btn-add" onclick="addSubjectRow()">+ Agregar materia</button>
+        <br>
+        <button class="btn-save" onclick="saveSubjectsToStorage()">Guardar materias</button>
+        <div class="save-notice">Los datos se guardan automáticamente en este navegador.</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>UTN Avellaneda · Departamento de Ingeniería Industrial · 2026 — Versión offline</footer>
+</div>
+
+<script>
+// ── THEME ────────────────────────────────────────────────────────────────────
+
+let currentTheme = localStorage.getItem('utn_theme') || 'light';
+
+function applyTheme(t) {
+  currentTheme = t;
+  document.body.classList.toggle('theme-light', t === 'light');
+  const btn = document.getElementById('theme-toggle-btn');
+  const lbl = document.getElementById('theme-toggle-label');
+  if (t === 'light') {
+    btn.querySelector('.toggle-icon').textContent = '🌙';
+    lbl.textContent = 'Tema oscuro';
+  } else {
+    btn.querySelector('.toggle-icon').textContent = '☀';
+    lbl.textContent = 'Tema claro';
+  }
+  localStorage.setItem('utn_theme', t);
+}
+
+function toggleTheme() {
+  applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+}
+
+// ── DATA ────────────────────────────────────────────────────────────────────
+
+const DEFAULT_TIMES = {
+  M: [
+    {label:'Bl. 0', start:'08:00', end:'08:45'},
+    {label:'Bl. 1', start:'08:45', end:'09:30'},
+    {label:'Bl. 2', start:'09:30', end:'10:15'},
+    {label:'Bl. 3', start:'10:30', end:'11:15'},
+    {label:'Bl. 4', start:'11:15', end:'12:00'},
+    {label:'Bl. 5', start:'12:00', end:'12:45'},
+  ],
+  T: [
+    {label:'Bl. 0', start:'13:00', end:'13:45'},
+    {label:'Bl. 1', start:'13:45', end:'14:30'},
+    {label:'Bl. 2', start:'14:30', end:'15:15'},
+    {label:'Bl. 3', start:'15:30', end:'16:15'},
+    {label:'Bl. 4', start:'16:15', end:'17:00'},
+    {label:'Bl. 5', start:'17:00', end:'17:45'},
+  ],
+  N: [
+    {label:'Bl. 0', start:'18:15', end:'19:00'},
+    {label:'Bl. 1', start:'19:00', end:'19:45'},
+    {label:'Bl. 2', start:'19:45', end:'20:30'},
+    {label:'Bl. 3', start:'20:30', end:'21:15'},
+    {label:'Bl. 4', start:'21:30', end:'22:15'},
+    {label:'Bl. 5', start:'22:15', end:'23:00'},
+  ]
+};
+
+const DEFAULT_DATA = [{"subject":"Algebra y Geometria Analitica","curso":"1-107","year":"1","turno":"N","day":"MA","day_name":"Martes","day2":"","day2_name":"","blocks":"0 a 4","saturday_monthly":false,"obs":"","tipo":"basica"},{"subject":"Análisis Matemático I","curso":"1-107","year":"1","turno":"N","day":"LU","day_name":"Lunes","day2":"","day2_name":"","blocks":"0 a 4","saturday_monthly":false,"obs":"","tipo":"basica"},{"subject":"Algebra y Geometria Analitica","curso":"1-51-N","year":"1","turno":"N","day":"VI","day_name":"Viernes","day2":"","day2_name":"","blocks":"0 a 4","saturday_monthly":false,"obs":"","tipo":"basica"},{"subject":"Algebra y Geometria Analitica","curso":"1-52-N","year":"1","turno":"N","day":"JU","day_name":"Jueves","day2":"","day2_name":"","blocks":"0 a 4","saturday_monthly":false,"obs":"","tipo":"basica"},{"subject":"Análisis Matemático I","curso":"1-51-N","year":"1","turno":"N","day":"JU","day_name":"Jueves","day2":"","day2_name":"","blocks":"0 a 4","saturday_monthly":false,"obs":"","tipo":"basica"},{"subject":"Análisis Matemático I","curso":"1-52-N","year":"1","turno":"N","day":"MI","day_name":"Miércoles","day2":"","day2_name":"","blocks":"0 a 4","saturday_monthly":false,"obs":"","tipo":"basica"},{"subject":"Fisica I","curso":"1-51-N","year":"1","turno":"N","day":"MA","day_name":"Martes","day2":"","day2_name":"","blocks":"3 a 5","saturday_monthly":true,"obs":"*Sábado por medio 4hs, turno mañana","tipo":"basica"},{"subject":"Fisica I","curso":"1-52-N","year":"1","turno":"N","day":"MA","day_name":"Martes","day2":"","day2_name":"","blocks":"0 a 2","saturday_monthly":true,"obs":"*Sábado por medio 4hs, turno mañana","tipo":"basica"},{"subject":"Informática I","curso":"1-51-N","year":"1","turno":"N","day":"MA","day_name":"Martes","day2":"","day2_name":"","blocks":"0 a 2","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Informática I","curso":"1-52-N","year":"1","turno":"N","day":"MA","day_name":"Martes","day2":"","day2_name":"","blocks":"3 a 5","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Informática I","curso":"1-53-N","year":"1","turno":"T","day":"LU","day_name":"Lunes","day2":"","day2_name":"","blocks":"0 a 2","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Informática I","curso":"1-54-N","year":"1","turno":"T","day":"LU","day_name":"Lunes","day2":"","day2_name":"","blocks":"3 a 5","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Ingeniería y Sociedad","curso":"1-51-N","year":"1","turno":"N","day":"LU","day_name":"Lunes","day2":"","day2_name":"","blocks":"1 a 2","saturday_monthly":false,"obs":"","tipo":"basica"},{"subject":"Ingeniería y Sociedad","curso":"1-52-N","year":"1","turno":"N","day":"LU","day_name":"Lunes","day2":"","day2_name":"","blocks":"3 a 4","saturday_monthly":false,"obs":"","tipo":"basica"},{"subject":"Pensamiento Sistémico","curso":"1-51-N","year":"1","turno":"N","day":"LU","day_name":"Lunes","day2":"","day2_name":"","blocks":"3 a 5","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Pensamiento Sistémico","curso":"1-52-N","year":"1","turno":"N","day":"LU","day_name":"Lunes","day2":"","day2_name":"","blocks":"0 a 2","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Pensamiento Sistémico","curso":"1-53-N","year":"1","turno":"T","day":"LU","day_name":"Lunes","day2":"","day2_name":"","blocks":"3 a 5","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Pensamiento Sistémico","curso":"1-54-N","year":"1","turno":"T","day":"LU","day_name":"Lunes","day2":"","day2_name":"","blocks":"0 a 2","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Química General","curso":"1-51-N","year":"1","turno":"N","day":"MI","day_name":"Miércoles","day2":"","day2_name":"","blocks":"0 a 4","saturday_monthly":false,"obs":"","tipo":"basica"},{"subject":"Química General","curso":"1-52-N","year":"1","turno":"N","day":"VI","day_name":"Viernes","day2":"","day2_name":"","blocks":"0 a 4","saturday_monthly":false,"obs":"","tipo":"basica"},{"subject":"Sistemas de Representación","curso":"1-55-N","year":"1","turno":"T","day":"MI","day_name":"Miércoles","day2":"","day2_name":"","blocks":"3 a 5","saturday_monthly":false,"obs":"","tipo":"basica"},{"subject":"Sistemas de Representación","curso":"1-56-N","year":"1","turno":"T","day":"VI","day_name":"Viernes","day2":"","day2_name":"","blocks":"0 a 2","saturday_monthly":false,"obs":"","tipo":"basica"},{"subject":"Sistemas de Representación","curso":"1-57-N","year":"1","turno":"M","day":"SA","day_name":"Sábado","day2":"","day2_name":"","blocks":"0 a 2","saturday_monthly":false,"obs":"","tipo":"basica"},{"subject":"Sistemas de Representación","curso":"1-58-N","year":"1","turno":"T","day":"SA","day_name":"Sábado","day2":"","day2_name":"","blocks":"3 a 5","saturday_monthly":false,"obs":"","tipo":"basica"},{"subject":"Administración General","curso":"2-51-N","year":"2","turno":"N","day":"JU","day_name":"Jueves","day2":"","day2_name":"","blocks":"0 a 3","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Administración General","curso":"2-52-N","year":"2","turno":"N","day":"MA","day_name":"Martes","day2":"JU","day2_name":"Jueves","blocks":"4 a 5","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Análisis Matemático II","curso":"2-51-N","year":"2","turno":"N","day":"VI","day_name":"Viernes","day2":"","day2_name":"","blocks":"0 a 4","saturday_monthly":false,"obs":"","tipo":"basica"},{"subject":"Análisis Matemático II","curso":"2-52-N","year":"2","turno":"N","day":"MI","day_name":"Miércoles","day2":"","day2_name":"","blocks":"0 a 4","saturday_monthly":false,"obs":"","tipo":"basica"},{"subject":"Ciencia de los Materiales","curso":"2-51-N","year":"2","turno":"N","day":"MA","day_name":"Martes","day2":"","day2_name":"","blocks":"0 a 3","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Ciencia de los Materiales","curso":"2-52-N","year":"2","turno":"N","day":"JU","day_name":"Jueves","day2":"","day2_name":"","blocks":"0 a 3","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Economía General","curso":"2-51-N","year":"2","turno":"N","day":"MA","day_name":"Martes","day2":"JU","day2_name":"Jueves","blocks":"4 a 5","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Economía General","curso":"2-52-N","year":"2","turno":"N","day":"MA","day_name":"Martes","day2":"","day2_name":"","blocks":"0 a 3","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Física II","curso":"2-51-N","year":"2","turno":"N","day":"MI","day_name":"Miércoles","day2":"","day2_name":"","blocks":"0 a 4","saturday_monthly":false,"obs":"","tipo":"basica"},{"subject":"Física II","curso":"2-52-N","year":"2","turno":"N","day":"VI","day_name":"Viernes","day2":"","day2_name":"","blocks":"0 a 4","saturday_monthly":false,"obs":"","tipo":"basica"},{"subject":"Informática II","curso":"2-51-N","year":"2","turno":"N","day":"LU","day_name":"Lunes","day2":"","day2_name":"","blocks":"0 a 2","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Informática II","curso":"2-52-N","year":"2","turno":"N","day":"LU","day_name":"Lunes","day2":"","day2_name":"","blocks":"3 a 5","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Probabilidad y Estadística","curso":"2-51-N","year":"2","turno":"N","day":"LU","day_name":"Lunes","day2":"","day2_name":"","blocks":"3 a 5","saturday_monthly":false,"obs":"","tipo":"basica"},{"subject":"Probabilidad y Estadística","curso":"2-52-N","year":"2","turno":"N","day":"LU","day_name":"Lunes","day2":"","day2_name":"","blocks":"0 a 2","saturday_monthly":false,"obs":"","tipo":"basica"},{"subject":"Análisis Numérico y Cálculo Avanzado","curso":"3-51-N","year":"3","turno":"T","day":"SA","day_name":"Sábado","day2":"","day2_name":"","blocks":"0 a 1","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Análisis Numérico y Cálculo Avanzado","curso":"3-52-N","year":"3","turno":"N","day":"MA","day_name":"Martes","day2":"","day2_name":"","blocks":"3 a 4","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Comercialización","curso":"3-51-N","year":"3","turno":"N","day":"MA","day_name":"Martes","day2":"","day2_name":"","blocks":"3 a 5","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Comercialización","curso":"3-52-N","year":"3","turno":"N","day":"MA","day_name":"Martes","day2":"","day2_name":"","blocks":"0 a 2","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Costos y Presupuestos","curso":"3-51-N","year":"3","turno":"N","day":"VI","day_name":"Viernes","day2":"","day2_name":"","blocks":"0 a 2","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Costos y Presupuestos","curso":"3-52-N","year":"3","turno":"N","day":"VI","day_name":"Viernes","day2":"","day2_name":"","blocks":"3 a 5","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Diseño de Producto","curso":"4-51-N","year":"4","turno":"N","day":"MA","day_name":"Martes","day2":"","day2_name":"","blocks":"4 a 5","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Economía de la Empresa","curso":"3-51-N","year":"3","turno":"N","day":"VI","day_name":"Viernes","day2":"","day2_name":"","blocks":"3 a 5","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Economía de la Empresa","curso":"3-52-N","year":"3","turno":"N","day":"JU","day_name":"Jueves","day2":"","day2_name":"","blocks":"0 a 2","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Electrotécnia y Máquinas Eléctricas","curso":"3-51-N","year":"3","turno":"N","day":"JU","day_name":"Jueves","day2":"","day2_name":"","blocks":"0 a 4","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Estática y Resistencia de Materiales","curso":"3-51-N","year":"3","turno":"N","day":"LU","day_name":"Lunes","day2":"","day2_name":"","blocks":"0 a 2","saturday_monthly":true,"obs":"*1 Sábado por mes 4hs, turno tarde","tipo":"carrera"},{"subject":"Estudio del Trabajo","curso":"3-51-N","year":"3","turno":"N","day":"MI","day_name":"Miércoles","day2":"","day2_name":"","blocks":"0 a 3","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Evaluación de Proyectos","curso":"4-51-N","year":"4","turno":"N","day":"LU","day_name":"Lunes","day2":"","day2_name":"","blocks":"0 a 4","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Instalaciones Industriales","curso":"4-51-N","year":"4","turno":"N","day":"MI","day_name":"Miércoles","day2":"","day2_name":"","blocks":"0 a 2","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Investigación Operativa","curso":"4-51-N","year":"4","turno":"N","day":"VI","day_name":"Viernes","day2":"","day2_name":"","blocks":"3 a 5","saturday_monthly":true,"obs":"*1 Sábado por mes 4hs, turno tarde","tipo":"carrera"},{"subject":"Legislación","curso":"4-51-N","year":"4","turno":"M","day":"SA","day_name":"Sábado","day2":"","day2_name":"","blocks":"0 a 1","saturday_monthly":false,"obs":"","tipo":"basica"},{"subject":"Mecánica de los Fluidos","curso":"3-51-N","year":"3","turno":"N","day":"MA","day_name":"Martes","day2":"","day2_name":"","blocks":"0 a 2","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Mecánica y Mecanismos","curso":"4-51-N","year":"4","turno":"N","day":"MI","day_name":"Miércoles","day2":"","day2_name":"","blocks":"3 a 5","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Planificación y Control de la Producción","curso":"4-51-N","year":"4","turno":"N","day":"MA","day_name":"Martes","day2":"","day2_name":"","blocks":"0 a 3","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Procesos Industriales","curso":"4-51-N","year":"4","turno":"N","day":"JU","day_name":"Jueves","day2":"","day2_name":"","blocks":"0 a 4","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Seguridad, Higiene e Ingeniería Ambiental","curso":"4-51-N","year":"4","turno":"N","day":"VI","day_name":"Viernes","day2":"","day2_name":"","blocks":"0 a 2","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Termodinámica y Maquinas Térmicas","curso":"3-51-N","year":"3","turno":"N","day":"LU","day_name":"Lunes","day2":"","day2_name":"","blocks":"3 a 5","saturday_monthly":true,"obs":"*1 Sábado por mes 4hs, turno tarde","tipo":"carrera"},{"subject":"Termodinámica y Maquinas Térmicas","curso":"3-52-N","year":"3","turno":"N","day":"MI","day_name":"Miércoles","day2":"","day2_name":"","blocks":"0 a 3","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Comercio Exterior","curso":"5-51-N","year":"5","turno":"N","day":"MI","day_name":"Miércoles","day2":"","day2_name":"","blocks":"3 a 5","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Control de Gestión","curso":"5-51-N","year":"5","turno":"N","day":"LU","day_name":"Lunes","day2":"","day2_name":"","blocks":"0 a 2","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Fabricación Flexible (Elec.)","curso":"5-52-N","year":"5","turno":"N","day":"JU","day_name":"Jueves","day2":"","day2_name":"","blocks":"3 a 5","saturday_monthly":true,"obs":"*1 Sábado por mes 4hs, turno tarde","tipo":"carrera"},{"subject":"Gestión de la Propiedad Industrial e Intelectual","curso":"5-54-N","year":"5","turno":"N","day":"JU","day_name":"Jueves","day2":"","day2_name":"","blocks":"3 a 5","saturday_monthly":true,"obs":"*1 Sábado por mes 4hs, turno tarde","tipo":"carrera"},{"subject":"Gestión de la Transformación Digital e Industrial 4.0 (Elec.)","curso":"5-54-N","year":"5","turno":"N","day":"JU","day_name":"Jueves","day2":"","day2_name":"","blocks":"3 a 5","saturday_monthly":true,"obs":"*1 Sábado por mes 4hs, turno tarde","tipo":"carrera"},{"subject":"Gestión Empresarial (Elec.)","curso":"5-52-N","year":"5","turno":"M","day":"SA","day_name":"Sábado","day2":"","day2_name":"","blocks":"0 a 2","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Gestión y Planificación de la Energía (Elec.)","curso":"5-54-N","year":"5","turno":"N","day":"VI","day_name":"Viernes","day2":"","day2_name":"","blocks":"0 a 2","saturday_monthly":false,"obs":"ESTE AÑO NO SE OFERTA","tipo":"carrera"},{"subject":"Industria del petróleo y el gas_OIL&GAS","curso":"5-54-N","year":"5","turno":"N","day":"VI","day_name":"Viernes","day2":"","day2_name":"","blocks":"0 a 2","saturday_monthly":false,"obs":"ASIGNATURA NUEVA-VERIFICAR N° DE COMISIÓN","tipo":"carrera"},{"subject":"Ingeniería en Calidad","curso":"5-51-N","year":"5","turno":"N","day":"LU","day_name":"Lunes","day2":"","day2_name":"","blocks":"3 a 5","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Investigación Tecnológica (Elec.)","curso":"5-53-N","year":"5","turno":"N","day":"JU","day_name":"Jueves","day2":"","day2_name":"","blocks":"3 a 5","saturday_monthly":true,"obs":"*1 Sábado por mes 4hs, turno mañana","tipo":"carrera"},{"subject":"Liderazgo y Coaching Ontológico en Ingeniería","curso":"5-53-N","year":"5","turno":"N","day":"MA","day_name":"Martes","day2":"","day2_name":"","blocks":"3 a 5","saturday_monthly":false,"obs":"ASIGNATURA NUEVA-VERIFICAR N° DE COMISIÓN","tipo":"carrera"},{"subject":"Logística (Elec.)","curso":"5-53-N","year":"5","turno":"N","day":"MA","day_name":"Martes","day2":"","day2_name":"","blocks":"3 a 5","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Manejo de Materiales y Distr. De Plantas","curso":"5-51-N","year":"5","turno":"N","day":"MI","day_name":"Miércoles","day2":"","day2_name":"","blocks":"0 a 2","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Mantenimiento","curso":"5-51-N","year":"5","turno":"N","day":"MA","day_name":"Martes","day2":"","day2_name":"","blocks":"0 a 2","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Proyecto Final","curso":"5-51-N","year":"5","turno":"N","day":"VI","day_name":"Viernes","day2":"","day2_name":"","blocks":"0 a 5","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Relaciones Industriales","curso":"5-51-N","year":"5","turno":"N","day":"JU","day_name":"Jueves","day2":"","day2_name":"","blocks":"0 a 2","saturday_monthly":false,"obs":"","tipo":"carrera"},{"subject":"Sociología de la Empresa (Elec.)","curso":"5-52-N","year":"5","turno":"N","day":"MA","day_name":"Martes","day2":"","day2_name":"","blocks":"3 a 5","saturday_monthly":false,"obs":"","tipo":"carrera"}];
+
+const DAYS = [
+  {code:'LU', name:'Lunes'},
+  {code:'MA', name:'Martes'},
+  {code:'MI', name:'Miércoles'},
+  {code:'JU', name:'Jueves'},
+  {code:'VI', name:'Viernes'},
+  {code:'SA', name:'Sábado'},
+];
+const YEAR_NAMES = {1:'Primer Año',2:'Segundo Año',3:'Tercer Año',4:'Cuarto Año',5:'Quinto Año'};
+
+// ── STATE ────────────────────────────────────────────────────────────────────
+
+let scheduleData = [];
+let timesData = {};
+let currentDay = 'LU';
+let currentView = 'schedule';
+let currentFilter = 'all';   // 'all' | 'basica' | 'carrera'
+let currentSort   = 'horario'; // 'horario' | 'alfa'
+let currentTurno  = 'N';       // 'M' | 'T' | 'N'
+
+function loadState() {
+  try {
+    const sd = localStorage.getItem('utn_schedule');
+    scheduleData = sd ? JSON.parse(sd) : JSON.parse(JSON.stringify(DEFAULT_DATA));
+  } catch(e) { scheduleData = JSON.parse(JSON.stringify(DEFAULT_DATA)); }
+  try {
+    const td = localStorage.getItem('utn_times');
+    timesData = td ? JSON.parse(td) : JSON.parse(JSON.stringify(DEFAULT_TIMES));
+  } catch(e) { timesData = JSON.parse(JSON.stringify(DEFAULT_TIMES)); }
+}
+
+// ── HELPERS ──────────────────────────────────────────────────────────────────
+
+function resolveBlockTime(turno, blockStr) {
+  if (!blockStr) return '';
+  const times = timesData[turno] || timesData['N'];
+  const s = String(blockStr).trim();
+  const rangeM = s.match(/^(\d+)\s*a\s*(\d+)$/);
+  if (rangeM) {
+    const from = parseInt(rangeM[1]);
+    const to   = parseInt(rangeM[2]);
+    const startEntry = times[from];
+    const endEntry   = times[Math.min(to, times.length-1)];
+    if (startEntry && endEntry)
+      return startEntry.start + ' – ' + endEntry.end;
+  }
+  const single = parseInt(s);
+  if (!isNaN(single) && times[single])
+    return times[single].start + ' – ' + times[single].end;
+  return s;
+}
+
+function getDayCount(dayCode) {
+  return scheduleData.filter(r => r.day === dayCode || r.day2 === dayCode).length;
+}
+
+// ── COMMISSION HELPERS ───────────────────────────────────────────────────────
+
+function getComNum(curso) {
+  // curso format: "year-com-turno" e.g. "1-51-N" or "2-52-N" or "1-107"
+  const parts = String(curso || '').split('-');
+  if (parts.length >= 2) return parts[1];
+  return '';
+}
+
+function comColorClass(comNum) {
+  const n = String(comNum).replace(/\D/g,'');
+  const valid = ['51','52','53','54','55','56','57','58'];
+  return valid.includes(n) ? `tag-com-${n}` : 'tag-comision';
+}
+
+function comDataAttr(curso) {
+  const n = String(getComNum(curso)).replace(/\D/g,'');
+  return n;
+}
+
+// ── FILTER / SORT ────────────────────────────────────────────────────────────
+
+function setFilter(f) {
+  currentFilter = f;
+  ['all','basica','carrera'].forEach(x => {
+    document.getElementById('filter-'+x)?.classList.toggle('active', x===f);
+  });
+  renderSchedule();
+}
+
+function setSort(s) {
+  currentSort = s;
+  ['horario','alfa'].forEach(x => {
+    document.getElementById('sort-'+x)?.classList.toggle('active', x===s);
+  });
+  renderSchedule();
+}
+
+function applyTurnoTheme(t) {
+  const el = document.getElementById('view-schedule');
+  if (!el) return;
+  el.classList.remove('turno-M','turno-T','turno-N');
+  if (t) el.classList.add('turno-' + t);
+}
+
+function setTurno(t) {
+  currentTurno = t;
+  ['M','T','N'].forEach(x => {
+    document.getElementById('turno-'+x)?.classList.toggle('active', x===t);
+  });
+  applyTurnoTheme(t);
+  renderSchedule();
+}
+
+function blockSortKey(item) {
+  // Convert "X a Y" block string + turno to a numeric sort key
+  const turnoBase = {M:0, T:100, N:200}[item.turno] || 0;
+  const s = String(item.blocks || '').trim();
+  const m = s.match(/^(\d+)/);
+  return turnoBase + (m ? parseInt(m[1]) : 99);
+}
+
+// ── CLOCK ────────────────────────────────────────────────────────────────────
+
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  document.getElementById('live-clock').textContent = h + ':' + m;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// Auto-highlight today
+function autoHighlightToday() {
+  const dayMap = {1:'LU',2:'MA',3:'MI',4:'JU',5:'VI',6:'SA',0:null};
+  const todayCode = dayMap[new Date().getDay()];
+  if (todayCode) currentDay = todayCode;
+}
+
+// ── VIEW SWITCHING ───────────────────────────────────────────────────────────
+
+function setView(v) {
+  currentView = v;
+  document.getElementById('view-schedule').style.display = v==='schedule' ? 'block' : 'none';
+  document.getElementById('view-summary').style.display  = v==='summary'  ? 'block' : 'none';
+  document.getElementById('view-edit').style.display     = v==='edit'     ? 'block' : 'none';
+  document.querySelectorAll('.nav-tab').forEach((t,i) => {
+    t.classList.toggle('active', ['schedule','summary','edit'][i] === v);
+  });
+  if (v === 'summary') renderSummary();
+  if (v === 'edit')    renderEdit();
+  if (v === 'schedule') {
+    const grid = document.getElementById('years-grid');
+    grid.innerHTML = '<div class="loading-schedule"><span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span></div>';
+    setTimeout(() => { renderDaySelector(); renderSchedule(); }, 300);
+  }
+}
+
+// ── SCHEDULE VIEW ────────────────────────────────────────────────────────────
+
+function renderDaySelector() {
+  const bar = document.getElementById('day-selector');
+  bar.innerHTML = DAYS.map(d => `
+    <button class="day-btn${d.code===currentDay?' active':''}" onclick="selectDay('${d.code}')">
+      ${d.name}
+      <span class="day-count">${getDayCount(d.code)} materias</span>
+    </button>
+  `).join('');
+}
+
+function selectDay(code) {
+  currentDay = code;
+  renderDaySelector();
+  renderSchedule();
+}
+
+function renderSchedule() {
+  const d = DAYS.find(x => x.code === currentDay);
+  const turnoNames = {'M':'Mañana','T':'Tarde','N':'Noche'};
+  const turnoLabel = turnoNames[currentTurno] || '';
+  document.getElementById('day-big-title').textContent = d.name.toUpperCase() + (turnoLabel ? ' · ' + turnoLabel.toUpperCase() : '');
+  document.getElementById('day-big-sub').textContent = `${getDayCount(d.code)} materias`;
+
+  let dayItems = scheduleData.filter(r => r.day === currentDay || r.day2 === currentDay);
+  if (currentFilter !== 'all') {
+    dayItems = dayItems.filter(r => (r.tipo || 'basica') === currentFilter);
+  }
+  dayItems = dayItems.filter(r => r.turno === currentTurno);
+
+  const grid = document.getElementById('years-grid');
+
+  if (!dayItems.length) {
+    grid.style.cssText = 'display:block;border:none';
+    grid.innerHTML = '<div class="empty-day">Sin materias programadas este día</div>';
+    return;
+  }
+  grid.style.cssText = '';
+
+  // ── CONFIG ────────────────────────────────────────────────────────────────
+  const ALL_YEARS  = [1, 2, 3, 4, 5];
+  const ALL_BLOCKS = [0, 1, 2, 3, 4, 5];
+  const activeYears = ALL_YEARS.filter(y => dayItems.some(r => parseInt(r.year) === y));
+  const numBlocks = ALL_BLOCKS.length; // 6
+
+  grid.style.gridTemplateColumns = `44px repeat(${numBlocks}, minmax(0, 1fr))`;
+  grid.style.gridTemplateRows    = '';  // auto — supports multiple sub-rows per year
+
+  // ── HELPERS ───────────────────────────────────────────────────────────────
+  function parseBlockRange(blockStr) {
+    const s = String(blockStr || '').trim();
+    const m = s.match(/^(\d+)\s*a\s*(\d+)$/);
+    if (m) return { from: parseInt(m[1]), to: parseInt(m[2]) };
+    const n = parseInt(s);
+    return isNaN(n) ? { from: 0, to: 0 } : { from: n, to: n };
+  }
+
+  function blockTimeStr(turno, blockStr) {
+    const { from, to } = parseBlockRange(blockStr);
+    const times = timesData[turno] || DEFAULT_TIMES[turno];
+    const s = times[from], e = times[Math.min(to, times.length - 1)];
+    return (s && e) ? `${s.start}–${e.end}` : '';
+  }
+
+  function blHeaderTime(bl) {
+    return ['M','T','N'].map(t => {
+      const times = timesData[t] || DEFAULT_TIMES[t];
+      return times[bl] ? `${t}: ${times[bl].start}` : null;
+    }).filter(Boolean).join('\n');
+  }
+
+  // ── BUILD HTML ────────────────────────────────────────────────────────────
+  let html = '';
+
+  // Header row: corner + hidden block-headers (preserve grid cols) + day/turno title overlay
+  html += `<div class="cal-corner"><span class="cal-corner-inner">AÑO</span></div>`;
+  ALL_BLOCKS.forEach((bl, i) => {
+    const isLast = i === ALL_BLOCKS.length - 1;
+    html += `<div class="cal-block-header${isLast ? ' last-col' : ''}"></div>`;
+  });
+
+  // ── One row per active year ──────────────────────────────────────────────
+  activeYears.forEach((yr, yi) => {
+    const isLastRow = yi === activeYears.length - 1;
+    const yrItems = dayItems.filter(r => parseInt(r.year) === yr);
+
+    // Year label
+    html += `<div class="cal-year-label yr-${yr}${isLastRow ? ' last-row' : ''}">
+      <span class="cal-yr-badge">${yr}°</span>
+      <span class="cal-yr-name">${YEAR_NAMES[yr] || 'Año '+yr}</span>
+    </div>`;
+
+    // ── Placement strategy ────────────────────────────────────────────────
+    // Build subjectMeta: one entry per unique (subject, from, to).
+    const subjectMeta = [];
+    yrItems.forEach(item => {
+      const { from, to } = parseBlockRange(item.blocks);
+      const key = item.subject + '||' + from + '-' + to;
+      let entry = subjectMeta.find(e => e._key === key);
+      if (!entry) {
+        entry = { _key: key, name: item.subject, items: [], from, to };
+        subjectMeta.push(entry);
+      }
+      entry.items.push(item);
+    });
+
+    subjectMeta.sort((a, b) =>
+      currentSort === 'alfa'
+        ? a.name.localeCompare(b.name, 'es')
+        : (a.from - b.from) || a.name.localeCompare(b.name, 'es')
+    );
+
+    // Helper to build the HTML for a single subject card.
+    // TV-optimised: HORA grande · nombre (color pastel por año) · comisión pill
+    const buildSubjectHtml = (sm) => {
+      // Get commission number for color pill
+      const getComNum = (curso) => {
+        const m = String(curso||'').match(/-(\d+)-/);
+        return m ? m[1] : '51';
+      };
+
+      const comRows = sm.items.map(item => {
+        const timeStr = blockTimeStr(item.turno, item.blocks);
+        const sat = item.saturday_monthly ? ' <span class="tv-sat">✱SAB</span>' : '';
+        const comNum = getComNum(item.curso);
+        // Format time: "18:15 – 22:15" with styled separator
+        const timeParts = timeStr.split('–');
+        const timeHtml = timeParts.length === 2
+          ? timeParts[0].trim() + '<span class="time-sep"> – </span>' + timeParts[1].trim()
+          : timeStr;
+        // Commission pill with its color
+        const comColor = `var(--com-${comNum},var(--utn-cyan))`;
+        const comPill = `<span class="tv-com-id" style="border-color:${comColor}40;color:${comColor};background:${comColor}18">${item.curso}</span>`;
+        return '<div class="tv-com-row">' +
+          '<span class="tv-com-time">' + timeHtml + '</span>' +
+          comPill + sat +
+          '</div>';
+      }).join('');
+      // yr viene del scope externo del forEach de activeYears
+      return '<div class="tv-subject">' +
+        '<div class="tv-sub-name yr-name-' + yr + '">' + sm.name + '</div>' +
+        '<div class="tv-com-list">' + comRows + '</div>' +
+        '</div>';
+    };
+
+    // Helper to render one full sub-row of cells for a given set of subjects.
+    // Returns the HTML string for all cells in that sub-row (no year label).
+    const renderSubRow = (subjects, subIsLastRow) => {
+      let rowHtml = '';
+      // pending[bl_i] → subjects starting at that block index
+      const pend = {};
+      ALL_BLOCKS.forEach((b, i) => { pend[i] = []; });
+      subjects.forEach(sm => {
+        const fromIdx = ALL_BLOCKS.indexOf(sm.from);
+        if (fromIdx !== -1) pend[fromIdx].push(sm);
+      });
+
+      let skipUntil = -1;
+      for (let bl_i = 0; bl_i < ALL_BLOCKS.length; bl_i++) {
+        const isLastCol = bl_i === ALL_BLOCKS.length - 1;
+        if (bl_i <= skipUntil) continue;
+
+        const starters = pend[bl_i] || [];
+        if (!starters.length) {
+          rowHtml += '<div class="cal-cell cal-cell-empty yr-' + yr +
+            (subIsLastRow ? ' last-row' : '') + (isLastCol ? ' last-col' : '') + '"></div>';
+          continue;
+        }
+
+        // All starters here share the same `from`; use their max `to` for span.
+        const maxTo = Math.max(...starters.map(s => s.to));
+        const cellSpan = Math.min(maxTo - ALL_BLOCKS[bl_i] + 1, ALL_BLOCKS.length - bl_i);
+        const cellContent = starters.map(sm => buildSubjectHtml(sm)).join('');
+        const spanStyle   = cellSpan > 1 ? 'grid-column:span ' + cellSpan + ';' : '';
+        const lastColMark = (bl_i + cellSpan - 1 >= ALL_BLOCKS.length - 1) ? ' last-col' : '';
+        const cellTurnos  = [...new Set(starters.flatMap(s => s.items.map(i => i.turno)))];
+        const cellTurno   = cellTurnos.length === 1 ? cellTurnos[0] : '';
+        const cellTurnoAttr = cellTurno ? ` data-turno="${cellTurno}"` : '';
+
+        rowHtml += '<div class="cal-cell yr-' + yr +
+          (subIsLastRow ? ' last-row' : '') + lastColMark +
+          '"' + cellTurnoAttr + ' style="' + spanStyle + '">' + cellContent + '</div>';
+
+        skipUntil = bl_i + cellSpan - 1;
+      }
+      return rowHtml;
+    };
+
+    // Split subjectMeta into sub-rows so that subjects with DIFFERENT `to` values
+    // that start at the same block don't stretch each other's cells.
+    // Two subjects conflict only if their [from,to] ranges intersect AND they
+    // have DIFFERENT (from,to) pairs — same-range subjects share a cell (stacked).
+    const subRows = []; // each element = array of subjectMeta entries
+    subjectMeta.forEach(sm => {
+      let placed = false;
+      for (const row of subRows) {
+        const conflict = row.some(r => {
+          if (sm.from === r.from && sm.to === r.to) return false; // same range → same cell, ok
+          return sm.from <= r.to && sm.to >= r.from;              // overlapping different ranges
+        });
+        if (!conflict) { row.push(sm); placed = true; break; }
+      }
+      if (!placed) subRows.push([sm]);
+    });
+
+    const numSubRows = subRows.length;
+
+    // The year label spans all sub-rows of this year.
+    // Patch the already-emitted year label to add grid-row:span if needed.
+    if (numSubRows > 1) {
+      // Replace the last emitted year-label div to add row-span style.
+      // We do this by appending a style attr before closing the first >.
+      // Since html is a string we rewrite the tail.
+      const labelStart = html.lastIndexOf('<div class="cal-year-label');
+      const labelGtPos = html.indexOf('>', labelStart);
+      html = html.slice(0, labelGtPos) +
+        ' style="grid-row:span ' + numSubRows + '"' +
+        html.slice(labelGtPos);
+    }
+
+    // Emit each sub-row's cells.
+    subRows.forEach((rowSubjects, ri) => {
+      const subIsLastRow = isLastRow && ri === numSubRows - 1;
+      html += renderSubRow(rowSubjects, subIsLastRow);
+    });
+  });
+
+  grid.innerHTML = html;
+}
+
+// ── SUMMARY VIEW ─────────────────────────────────────────────────────────────
+
+function renderSummary() {
+  const container = document.getElementById('summary-content');
+  const yearColors = {1:'var(--y1)',2:'var(--y2)',3:'var(--y3)',4:'var(--y4)',5:'var(--y5)'};
+
+  // By-year-per-day card
+  let html = `<div style="margin-bottom:20px">
+    <div class="summary-title" style="font-size: 1.25rem;margin-bottom:14px">Materias totales: <span>${scheduleData.length}</span></div>
+  </div>`;
+
+  html += '<div class="summary-grid">';
+  DAYS.forEach(day => {
+    const dayItems = scheduleData.filter(r => r.day === day.code);
+    if (!dayItems.length) return;
+
+    const byYear = {};
+    dayItems.forEach(item => {
+      const y = parseInt(item.year);
+      if (!byYear[y]) byYear[y] = [];
+      byYear[y].push(item);
+    });
+
+    const yearSections = Object.keys(byYear).sort((a,b)=>a-b).map(yr => {
+      const color = yearColors[parseInt(yr)] || '#6B8099';
+      const items = byYear[yr];
+
+      // Group by subject name
+      const grouped = {};
+      items.forEach(item => {
+        if (!grouped[item.subject]) grouped[item.subject] = [];
+        grouped[item.subject].push(item);
+      });
+
+      const subjectBlocks = Object.keys(grouped).sort((a,b)=>a.localeCompare(b,'es')).map(subName => {
+        const subItems = grouped[subName];
+        const comNum0 = comDataAttr(subItems[0].curso);
+        const comClass0 = comColorClass(getComNum(subItems[0].curso));
+
+        if (subItems.length === 1) {
+          const item = subItems[0];
+          const satMark = item.saturday_monthly ? '<span class="sat-star">✱</span>' : '';
+          const comNum = comDataAttr(item.curso);
+          const comClass = comColorClass(getComNum(item.curso));
+          return `<div class="summary-item" style="border-color:${color}">
+            <span>${item.subject}${satMark}</span>
+            <span class="curso-tag" style="color:var(--com-${comNum},var(--utn-cyan))">${item.curso}</span>
+          </div>`;
+        } else {
+          // Multiple commissions: show subject name once, then each commission indented
+          const comRows = subItems.map(item => {
+            const satMark = item.saturday_monthly ? '<span class="sat-star">✱</span>' : '';
+            const comNum = comDataAttr(item.curso);
+            const comColor = `var(--com-${comNum},var(--utn-cyan))`;
+            return `<div class="summary-comision-row" style="border-color:${color}">
+              <span style="font-size:0.65rem;opacity:0.75">↳ ${item.curso}${satMark}</span>
+              <span class="curso-tag" style="color:${comColor}">${item.turno === 'M' ? 'Mañana' : item.turno === 'T' ? 'Tarde' : 'Noche'}</span>
+            </div>`;
+          }).join('');
+          return `<div class="summary-subject-group">
+            <div class="summary-item" style="border-color:${color};font-weight:600">
+              <span>${subName}</span>
+              <span class="curso-tag">${subItems.length} com.</span>
+            </div>
+            ${comRows}
+          </div>`;
+        }
+      }).join('');
+
+      return `<div class="summary-year-section">
+        <div class="summary-year-label" style="background:${color}20;color:${color};border:1px solid ${color}50">Año ${yr}</div>
+        ${subjectBlocks}
+      </div>`;
+    }).join('');
+
+    html += `<div class="summary-day-card">
+      <div class="summary-day-header">
+        <h3>${day.name}</h3>
+        <span class="count">${dayItems.length} materias</span>
+      </div>
+      <div class="summary-day-body">${yearSections}</div>
+    </div>`;
+  });
+  html += '</div>';
+
+  container.innerHTML = html;
+}
+
+// ── EDIT VIEW ────────────────────────────────────────────────────────────────
+
+function renderEdit() {
+  renderTimeEdit();
+  renderSubjectEdit();
+}
+
+function renderTimeEdit() {
+  ['M','T','N'].forEach(turno => {
+    const grid = document.getElementById('time-grid-'+turno);
+    const rows = (timesData[turno] || DEFAULT_TIMES[turno]);
+    grid.innerHTML = rows.map((t,i) => `
+      <div class="time-row">
+        <span class="time-label">${t.label}</span>
+        <input class="time-input" id="t_${turno}_${i}_s" value="${t.start}" placeholder="08:00">
+        <span class="time-sep">—</span>
+        <input class="time-input" id="t_${turno}_${i}_e" value="${t.end}" placeholder="08:45">
+      </div>
+    `).join('');
+  });
+}
+
+function saveTimesToStorage() {
+  ['M','T','N'].forEach(turno => {
+    const rows = timesData[turno] || [];
+    rows.forEach((t,i) => {
+      const s = document.getElementById(`t_${turno}_${i}_s`);
+      const e = document.getElementById(`t_${turno}_${i}_e`);
+      if (s) t.start = s.value;
+      if (e) t.end   = e.value;
+    });
+  });
+  localStorage.setItem('utn_times', JSON.stringify(timesData));
+  alert('Horarios guardados ✓');
+}
+
+function renderSubjectEdit() {
+  const tbody = document.getElementById('edit-tbody');
+  const dayOptions = (sel) => DAYS.map(d=>`<option value="${d.code}"${sel===d.code?' selected':''}>${d.name}</option>`).join('');
+  const day2Options = (sel) => `<option value=""${!sel?' selected':''}>—</option>` + DAYS.filter(d=>d.code!=='SA').map(d=>`<option value="${d.code}"${sel===d.code?' selected':''}>${d.name}</option>`).join('');
+  const tipoOptions = (sel) => ['basica','carrera'].map(t=>`<option value="${t}"${(sel||'basica')===t?' selected':''}>${t==='basica'?'Básica':'Especialidad'}</option>`).join('');
+  tbody.innerHTML = scheduleData.map((item, idx) => `
+    <tr data-idx="${idx}">
+      <td><input class="edit-input" value="${esc(item.subject)}" onchange="updateItem(${idx},'subject',this.value)" style="min-width:160px"></td>
+      <td><input class="edit-input" value="${esc(item.curso)}" onchange="updateItem(${idx},'curso',this.value)" style="width:90px"></td>
+      <td>
+        <select class="edit-select edit-select-tipo" onchange="updateItem(${idx},'tipo',this.value)">
+          ${tipoOptions(item.tipo)}
+        </select>
+      </td>
+      <td>
+        <select class="edit-select" onchange="updateItem(${idx},'turno',this.value)">
+          ${['M','T','N'].map(t=>`<option value="${t}"${item.turno===t?' selected':''}>${{M:'Mañana',T:'Tarde',N:'Noche'}[t]}</option>`).join('')}
+        </select>
+      </td>
+      <td>
+        <select class="edit-select" onchange="updateItem(${idx},'day',this.value);updateItem(${idx},'day_name',this.options[this.selectedIndex].text)">
+          ${dayOptions(item.day)}
+        </select>
+      </td>
+      <td>
+        <select class="edit-select" onchange="updateItem(${idx},'day2',this.value);updateItem(${idx},'day2_name',this.options[this.selectedIndex].text)">
+          ${day2Options(item.day2||'')}
+        </select>
+      </td>
+      <td><input class="edit-input" value="${esc(item.blocks)}" onchange="updateItem(${idx},'blocks',this.value)" style="width:70px" placeholder="0 a 4"></td>
+      <td style="text-align:center"><input type="checkbox" class="edit-checkbox" ${item.saturday_monthly?'checked':''} onchange="updateItem(${idx},'saturday_monthly',this.checked)"></td>
+      <td><button class="btn-delete" onclick="deleteItem(${idx})">✕</button></td>
+    </tr>
+  `).join('');
+}
+
+function esc(s) { return String(s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+
+function updateItem(idx, key, val) {
+  scheduleData[idx][key] = val;
+  if (key === 'curso') {
+    const parts = val.split('-');
+    scheduleData[idx].year = parts[0] || '1';
+  }
+}
+
+function deleteItem(idx) {
+  if (!confirm('¿Eliminar esta materia?')) return;
+  scheduleData.splice(idx, 1);
+  renderSubjectEdit();
+}
+
+function addSubjectRow() {
+  // Prevent adding exact duplicates (same subject+curso+day+blocks)
+  const newEntry = {subject:'Nueva Materia',curso:'1-51-N',year:'1',turno:'N',day:'LU',day_name:'Lunes',blocks:'0 a 2',saturday_monthly:false,obs:'',tipo:'basica'};
+  const isDuplicate = scheduleData.some(x =>
+    x.subject === newEntry.subject &&
+    x.curso   === newEntry.curso   &&
+    x.day     === newEntry.day     &&
+    x.blocks  === newEntry.blocks
+  );
+  if (isDuplicate) {
+    alert('Ya existe una comisión con ese nombre, código, día y bloque horario exactos.');
+    return;
+  }
+  scheduleData.push(newEntry);
+  renderSubjectEdit();
+  document.getElementById('edit-tbody').lastElementChild?.scrollIntoView({behavior:'smooth'});
+}
+
+function saveSubjectsToStorage() {
+  // Check for exact duplicates before saving
+  const seen = new Set();
+  let hasDupe = false;
+  scheduleData.forEach(x => {
+    const k = x.subject + '|' + x.curso + '|' + x.day + '|' + x.blocks;
+    if (seen.has(k)) hasDupe = true;
+    seen.add(k);
+  });
+  if (hasDupe) {
+    if (!confirm('Hay comisiones duplicadas exactas (mismo nombre, código, día y bloque). ¿Guardar de todos modos?')) return;
+  }
+  localStorage.setItem('utn_schedule', JSON.stringify(scheduleData));
+  renderDaySelector();
+  renderSchedule();
+  alert('Materias guardadas ✓');
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+
+loadState();
+autoHighlightToday();
+applyTheme(currentTheme);
+renderDaySelector();
+renderSchedule();
+
+function exportToPNG() {
+  const btn = document.getElementById('btn-export');
+  btn.classList.add('exporting');
+  btn.textContent = '⏳ Generando...';
+  btn.style.visibility = 'hidden';
+
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const sx = window.scrollX;
+  const sy = window.scrollY;
+
+  html2canvas(document.body, {
+    scale: 2,
+    useCORS: true,
+    backgroundColor: getComputedStyle(document.body).backgroundColor,
+    // Capture exactly what's visible: offset by scroll, clipped to viewport
+    x: sx,
+    y: sy,
+    width: vw,
+    height: vh,
+    windowWidth: vw,
+    windowHeight: vh,
+    scrollX: -sx,
+    scrollY: -sy,
+    ignoreElements: el => el.id === 'btn-export'
+  }).then(canvas => {
+    btn.style.visibility = '';
+    btn.classList.remove('exporting');
+    btn.textContent = '📷 Exportar PNG';
+
+    const link = document.createElement('a');
+    const day = document.getElementById('day-big-title')?.textContent || 'horario';
+    link.download = `UTN-Avellaneda_${day.replace(/\s+/g,'-')}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }).catch(() => {
+    btn.style.visibility = '';
+    btn.classList.remove('exporting');
+    btn.textContent = '📷 Exportar PNG';
+  });
+}
+
+</script>
+</body>
+</html>

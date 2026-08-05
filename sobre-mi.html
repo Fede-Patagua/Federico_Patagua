@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sobre mí — Federico Patagua</title>
+<meta name="description" content="[COMPLETAR: descripción breve, 1 línea]">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ============ ÍNDICE LATERAL (idéntico al de index.html) ============ -->
+  <nav class="sidebar" aria-label="Índice">
+    <div class="sidebar__top">
+      <div class="identity">
+        <span class="avatar">
+          <img src="assets/img/profile.jpg" alt="Foto de perfil"
+               onerror="this.style.display='none'; this.parentElement.classList.add('avatar--empty')">
+        </span>
+        <div class="identity__text">
+          <p class="brand"><a href="index.html" class="brand-link">Federico Patagua</a></p>
+          <p class="role">Product Owner / Project Manager</p>
+        </div>
+      </div>
+
+      <a class="about-link is-active" href="sobre-mi.html">Sobre mí</a>
+
+      <ul class="toc">
+        <li><a href="index.html#gantt"><span class="num">01</span><span>Gantt gratuito</span></a></li>
+        <li><a href="index.html#horas"><span class="num">02</span><span>Visor de horas</span></a></li>
+        <li><a href="index.html#plan-estudios"><span class="num">03</span><span>Plan de estudios académico</span></a></li>
+        <li><a href="index.html#geppetto"><span class="num">04</span><span>Geppetto</span></a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar__bottom">
+      <div class="mail-row">
+        <a class="mail-text" href="mailto:federico.daniel.patagua@gmail.com">federico.daniel.patagua@gmail.com</a>
+        <button type="button" class="copy-btn" data-copy="federico.daniel.patagua@gmail.com" aria-label="Copiar email">
+          <svg class="icon-copy" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <rect x="5.5" y="5.5" width="8" height="8" rx="1.2" stroke="currentColor" stroke-width="1.3"/>
+            <path d="M3.5 10.2V3.7A1.2 1.2 0 0 1 4.7 2.5h6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+          </svg>
+          <svg class="icon-check" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 8.5L6.2 11.5L13 4.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <p><a href="[COMPLETAR: url de GitHub]">GitHub</a></p>
+      <p><a href="assets/cv/cv.pdf" target="_blank" rel="noopener noreferrer">CV (PDF)</a></p>
+    </div>
+  </nav>
+
+  <!-- ============ CONTENIDO ============ -->
+  <main class="main">
+    <div class="page">
+
+      <header class="intro">
+        <h1>Sobre mí</h1>
+      </header>
+
+      <section class="about about--standalone">
+        <div class="about__grid">
+          <div class="about__block">
+            <h3>Intereses</h3>
+            <p>Me gusta entender el detrás de escena, y el para qué de las cosas. Esa curiosidad me llevó a interesarme en la ingeniería. Dado el enfoque entre las humanidades y la tecnología, terminé eligiendo la Ingeniería Industrial como mi formación principal.</p>
+            <p>En mi tiempo libre disfruto el tiempo en familia, me gusta leer libros en papel, las plazas en primavera y otoño, el cine, jugar videojuegos con amigos y el fútbol.</p>
+          </div>
+
+          <div class="about__block">
+            <h3>Recorrido</h3>
+            <p>Vengo de una familia de comerciantes, así que desde chico conocí el valor del trabajo. A los 12 años acompañaba el negocio familiar algunos días a la semana, trabajando como cajero y atendiendo al público. Ahí empecé a entender, por primera vez, lo que implica estar del otro lado del mostrador.</p>
+            <p>Con el tiempo, esa base y mi interés por las personas me llevaron, casi de forma natural, a coordinar equipos. Hoy busco que lo que hago tenga un propósito y sea útil.</p>
+          </div>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <p><a href="index.html">← Volver al índice</a></p>
+      </footer>
+
+    </div>
+  </main>
+
+</div>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

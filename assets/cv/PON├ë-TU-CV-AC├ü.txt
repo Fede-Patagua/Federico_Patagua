@@ -1,0 +1,7 @@
+Guardá tu CV acá con el nombre exacto: cv.pdf
+
+Se sube con el mismo método de arrastrar y soltar que el resto (sección
+1.c del README): entrás a assets/cv/ en github.com, Add file → Upload
+files, arrastrás el PDF, commit.
+
+Podés borrar este .txt una vez que subas el archivo real.

@@ -1,0 +1,11 @@
+Guardá tu foto en esta carpeta con el nombre exacto: profile.jpg
+
+Recomendaciones para que se vea bien en el círculo chico del sidebar:
+- Formato cuadrado (ej. 200x200px o 400x400px), así no se deforma al recortarla en círculo.
+- Peso liviano (menos de 200kb) — no hace falta más resolución para 40px de diámetro en pantalla.
+- Si tu archivo es .png o .webp en vez de .jpg, actualizá la ruta en index.html:
+  <img src="assets/img/profile.jpg" ...>  →  <img src="assets/img/profile.png" ...>
+
+Mientras no haya foto acá, el sidebar muestra un círculo vacío en vez de un ícono roto (ya está resuelto en el CSS/JS).
+
+Podés borrar este archivo .txt una vez que subas la foto real.

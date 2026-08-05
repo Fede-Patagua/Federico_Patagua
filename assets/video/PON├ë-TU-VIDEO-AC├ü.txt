@@ -1,0 +1,28 @@
+Guardá acá el video de preview con el nombre exacto: plan-estudios.mp4
+
+Recomendaciones (importa porque GitHub Pages no comprime ni transcodea nada,
+sirve el archivo tal cual lo subiste):
+
+- Formato: .mp4, códec H.264 (el más compatible en todos los navegadores).
+- Sin audio: si el archivo original tiene pista de audio, quitala — no
+  hace falta para que se vea silencioso, pero así el archivo pesa menos.
+- Corto: 5-15 segundos alcanza para un preview. Un video largo pesa mucho
+  y tarda en cargar en la portada.
+- Peso: idealmente menos de 8-10MB. El límite duro de GitHub es 100MB por
+  archivo, pero para que cargue rápido en la portada conviene ir mucho más
+  liviano que eso.
+- Sin sonido + autoplay + loop ya están configurados en el HTML
+  (atributos muted, autoplay, loop, playsinline) — el navegador los deja
+  reproducir automáticamente solo porque no tienen audio. Si el archivo
+  tuviera audio, la mayoría de los navegadores bloquearía el autoplay.
+
+Cómo comprimir/quitar audio si hace falta (con ffmpeg, gratis):
+  ffmpeg -i original.mov -an -vcodec libx264 -crf 28 -preset veryslow plan-estudios.mp4
+
+  -an          → quita el audio
+  -crf 28      → calidad/peso razonable para web (más alto = más liviano)
+
+Si no tenés ffmpeg instalado, cualquier compresor de video online sirve
+igual, mientras el resultado final sea .mp4 sin audio.
+
+Podés borrar este archivo .txt una vez que subas el video real.
