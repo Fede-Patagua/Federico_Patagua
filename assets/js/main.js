@@ -46,32 +46,4 @@ document.addEventListener("DOMContentLoaded", () => {
       target.querySelector(".chapter__row").click();
     }
   }
-
-  // ---------- botón de copiar email ----------
-  document.querySelectorAll(".copy-btn").forEach((btn) => {
-    btn.addEventListener("click", async () => {
-      const text = btn.getAttribute("data-copy");
-      if (!text) return;
-      try {
-        await navigator.clipboard.writeText(text);
-      } catch (err) {
-        // Fallback para navegadores sin permiso de clipboard API
-        const temp = document.createElement("textarea");
-        temp.value = text;
-        temp.style.position = "fixed";
-        temp.style.opacity = "0";
-        document.body.appendChild(temp);
-        temp.select();
-        document.execCommand("copy");
-        document.body.removeChild(temp);
-      }
-      btn.classList.add("is-copied");
-      btn.setAttribute("aria-label", "Email copiado");
-      clearTimeout(btn._copyTimeout);
-      btn._copyTimeout = setTimeout(() => {
-        btn.classList.remove("is-copied");
-        btn.setAttribute("aria-label", "Copiar email");
-      }, 1600);
-    });
-  });
 });

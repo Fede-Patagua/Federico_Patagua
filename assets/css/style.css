@@ -1,20 +1,20 @@
 /* ============================================================
    PORTFOLIO — sistema de diseño
    Concepto: libro con índice. Paleta tipo papel envejecido,
-   acento "tela de libro" (oxblood), tipografía editorial.
+   acento grafito y cobre, tipografía editorial.
    ============================================================ */
 
 :root {
-  --paper: #f6f5f1;
-  --paper-raised: #ffffff;
-  --ink: #171715;
-  --ink-soft: #55534c;
-  --ink-faint: #8a887f;
-  --rule: #ddd9cf;
-  --rule-strong: #c7c2b4;
-  --accent: #5c2a2a;
-  --accent-soft: #efe3e0;
-  --accent-line: #a9564f;
+  --paper: #e4e1d8;
+  --paper-raised: #f1efe7;
+  --ink: #1c1c1a;
+  --ink-soft: #4d4c46;
+  --ink-faint: #827f73;
+  --rule: #d0cdbf;
+  --rule-strong: #b3af9e;
+  --accent: #8a4a12;
+  --accent-soft: #d9d2c0;
+  --accent-line: #b5651d;
 
   --font-display: "Fraunces", "Iowan Old Style", "Georgia", serif;
   --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -132,74 +132,96 @@ a { color: inherit; }
 /* ---------- link "Sobre mí": fuera del índice numerado ---------- */
 
 .about-link {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.03em;
   color: var(--ink-soft);
   text-decoration: none;
-  padding-bottom: 2px;
-  border-bottom: 1px solid var(--rule-strong);
-  margin-bottom: 32px;
-  transition: color 0.15s ease, border-color 0.15s ease;
+  padding: 6px 10px;
+  margin: 0 -10px 32px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 4px;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+}
+
+.about-link::after {
+  content: "→";
+  transition: transform 0.15s ease;
 }
 
 .about-link:hover,
 .about-link.is-active {
   color: var(--accent);
   border-color: var(--accent-line);
+  background: var(--accent-soft);
+}
+
+.about-link:hover::after {
+  transform: translateX(2px);
 }
 
 .sidebar__top {
   display: flex;
   flex-direction: column;
   min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--rule-strong) transparent;
+}
+
+.sidebar__top::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar__top::-webkit-scrollbar-thumb {
+  background: var(--rule-strong);
+  border-radius: 3px;
+}
+
+.sidebar__top::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .toc {
   list-style: none;
   margin: 0;
-  padding: 0;
-  border-top: 1px solid var(--rule);
-  overflow-y: auto;
-  max-height: 46vh; /* techo generoso: hoy no se nota, pero si el índice
-                        crece, el scroll queda contenido acá adentro en
-                        vez de empujar el resto del sidebar */
-  scrollbar-width: thin;
-  scrollbar-color: var(--rule-strong) transparent;
+  padding: 8px 0 0;
 }
 
-.toc::-webkit-scrollbar {
-  width: 6px;
+.toc-group-label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  padding: 20px 4px 8px;
 }
 
-.toc::-webkit-scrollbar-thumb {
-  background: var(--rule-strong);
-  border-radius: 3px;
-}
-
-.toc::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.toc li {
-  border-bottom: 1px solid var(--rule);
+.toc-group-label:first-child {
+  padding-top: 6px;
 }
 
 .toc a {
   display: flex;
   align-items: baseline;
   gap: 12px;
-  padding: 14px 4px;
+  padding: 9px 4px;
   text-decoration: none;
   font-size: 14.5px;
   color: var(--ink-soft);
-  transition: color 0.15s ease, padding-left 0.15s ease;
+  border-radius: 3px;
+  transition: color 0.15s ease, background 0.15s ease;
 }
 
 .toc a:hover {
   color: var(--ink);
-  padding-left: 6px;
+  background: var(--accent-soft);
+  margin: 0 -4px;
+  padding-left: 8px;
+  padding-right: 4px;
 }
 
 .toc a.is-active {
@@ -220,88 +242,23 @@ a { color: inherit; }
 .sidebar__bottom {
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   font-family: var(--font-mono);
   font-size: 11px;
   color: var(--ink-faint);
   letter-spacing: 0.02em;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
 }
 
 .sidebar__bottom > * {
   margin: 0;
-  padding: 14px 0;
-  border-top: 1px solid var(--rule);
-}
-
-.sidebar__bottom > *:first-child {
-  padding-top: 0;
-  border-top: none;
-}
-
-.sidebar__bottom > *:last-child {
-  padding-bottom: 0;
 }
 
 .sidebar__bottom a {
   text-decoration: none;
   border-bottom: 1px solid var(--rule-strong);
-}
-
-/* ---------- email: link + botón de copiar ---------- */
-
-.mail-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.mail-row .mail-text {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  border-bottom: 1px solid var(--rule-strong);
-}
-
-.copy-btn {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  padding: 0;
-  border: none;
-  background: none;
-  color: var(--ink-faint);
-  cursor: pointer;
-  border-radius: 3px;
-  transition: color 0.15s ease, background 0.15s ease;
-}
-
-.copy-btn:hover {
-  color: var(--accent);
-  background: var(--accent-soft);
-}
-
-.copy-btn svg {
-  width: 13px;
-  height: 13px;
-}
-
-.copy-btn .icon-check {
-  display: none;
-}
-
-.copy-btn.is-copied .icon-copy {
-  display: none;
-}
-
-.copy-btn.is-copied .icon-check {
-  display: block;
-}
-
-.copy-btn.is-copied {
-  color: var(--accent);
 }
 
 /* ---------- transición entre páginas (nativa del navegador) ---------- */
@@ -679,9 +636,6 @@ a { color: inherit; }
   }
 
   .sidebar__top .role { margin-bottom: 24px; }
-  .sidebar__bottom { margin-top: 24px; }
-
-  .toc { max-height: none; overflow-y: visible; }
 
   .main { padding: 56px var(--gutter) 100px; }
   .intro { margin-bottom: 64px; }
